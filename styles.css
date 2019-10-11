@@ -11,3 +11,14 @@
 .user_cover {
     width: 100%;
 }
+
+.title {
+    text-align: center;
+}
+.redeem_content {
+    text-align: center;
+}
+.redeem {
+    height: 100%;
+    overflow: auto;
+}
