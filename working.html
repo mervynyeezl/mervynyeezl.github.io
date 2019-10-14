@@ -21,7 +21,7 @@
                         <ons-icon icon="fa-long-arrow-alt-left"></ons-icon>
                     </ons-toolbar-button>
                 </div>
-                <div class="center">REWARDS</div>
+                <div class="center">Healthy365</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
@@ -32,7 +32,7 @@
 
 
             <ons-tabbar swipeable position="bottom">
-                <ons-tab page="tab1.html" label="DASHBOARD" icon="fa-stopwatch" active>
+                <ons-tab page="start_page.html" label="DASHBOARD" icon="fa-stopwatch" active>
                 </ons-tab>
                 <ons-tab label="CHALLENGES" icon="fa-flag" active-icon="md-face">
                 </ons-tab>
@@ -44,8 +44,39 @@
         </ons-page>
     </ons-navigator>
 
-    <template id="tab1.html">
+    <template id="start_page.html">
+        <ons-page id="STARTPAGE">
+
+            <div style="text-align: center; margin-top: 40%;">
+                <h1 style="text-align: center;">
+                    Survey ID
+                </h1>
+                <p>
+                    <ons-input id="workerid" modifier="underbar" placeholder="Enter WorkerID" float></ons-input>
+                </p>
+            </div>
+            <p style="margin-top: 30px;">
+                <ons-button modifier="large" 
+                    onclick="startPressed()">Start</ons-button>
+            </p>
+        </ons-page>
+
+    </template>
+
+    <template id="rewards.html">
         <ons-page id="REWARDS">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button></ons-back-button>
+                </div>
+                <div class="center">Vouchers</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+
             <div id="vouchers"></div>
 
         </ons-page>
@@ -82,9 +113,14 @@
                         <ons-col class="redeem_content" id="healthpoints"></ons-col>
                         <ons-col class="redeem_content">
                             <ons-row>
-                                <ons-col><ons-icon icon="ion-ios-remove-circle-outline" size="lg" id="remove_quantity"></ons-icon></ons-col>
+                                <ons-col>
+                                    <ons-icon icon="ion-ios-remove-circle-outline" size="lg" id="remove_quantity">
+                                    </ons-icon>
+                                </ons-col>
                                 <ons-col id="quantity"></ons-col>
-                                <ons-col><ons-icon icon="ion-ios-add-circle-outline" size="lg" id="add_quantity"></ons-icon></ons-col>
+                                <ons-col>
+                                    <ons-icon icon="ion-ios-add-circle-outline" size="lg" id="add_quantity"></ons-icon>
+                                </ons-col>
                             </ons-row>
                         </ons-col>
                     </ons-row>
@@ -107,26 +143,6 @@
 
     <ons-button onclick="alert('Hello World!')">Click Me</ons-button>
 
-    <script>
-        function sendCustomEvent() {
-            console.log('sendCustomEvent');
-            document.dispatchEvent(new CustomEvent('myevent', {
-                detail: {
-                    eventName: 'myeventName',
-                    info: { 'key1': 'val1', 'key2': 'val2' }
-                }
-            }));
-        }
-        document.addEventListener('myevent', loggingjs.logEvent, true);
-
-        function sendCustomEvent2() {
-            console.log('sendCustomEvent2');
-            loggingjs.logEvent(null, 'myevent2', {
-                eventName: 'myeventName',
-                info: { 'key1': 'val1', 'key2': 'val2' }
-            });
-        }
-    </script>
 
     <div id="label">Label</div>
     <input id="inText" type="text" />
