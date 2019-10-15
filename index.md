@@ -1,162 +1,165 @@
-var vouchers = ["TapForMore", "Transitlink", "AIBI", "BOUNCE", "FairPrice", "Hillion", "Kallang Wave Mall", "Key Power", "Klook", "KOI", "Lazada", "LiHo", "Mr Bean", "Polar Puffs & Cakes", "Qi Ji", "QQ Rice", "Sembawang Shopping Centre", "Simply Wrapps", "Sportslink", "Actxa", "AsiiaMalls", "FairPrice Online App/Web", "Osim"];
-var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
+<!DOCTYPE html>
+<html>
 
-document.addEventListener('prechange', function (event) {
-    document.querySelector('ons-toolbar .center')
-        .innerHTML = event.tabItem.getAttribute('label');
-});
+<head>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.min.css">
+    <script src="lib/onsen/js/onsenui.min.js"></script>
+    <script src="logging.js"></script>
+    <script src="scripts.js"></script>
 
-document.addEventListener('init', function (event) {
-    var page = event.target;
+</head>
 
-    if (page.id === 'REWARDS') {
-        updateVouchers();
+<body>
 
-    } else if (page.id === 'REDEEM_REWARD') {
-        page.querySelector('.title').innerText = page.data.title;
-
-        var multiple = 750;
-        var healthpoints = 0;
-        var quantity = 1;
-        updateHealthpointsQuantity(healthpoints, quantity);
-        page.querySelector('#add_quantity').onclick = function () {
-            healthpoints = healthpoints + multiple;
-            quantity = quantity + 1;
-            updateHealthpointsQuantity(healthpoints, quantity);
-        };
-        page.querySelector('#remove_quantity').onclick = function () {
-            healthpoints = Math.max(healthpoints - multiple, 0);
-            quantity = Math.max(quantity - 1, 1)
-            updateHealthpointsQuantity(healthpoints, quantity);
-        };
-    }
-});
-
-function updateVouchers() {
-    var ons = "";
-    var index = 0;
-    while (index < vouchers.length) {
-        row = "<ons-row class='user_cover'>";
-        row += updateRow(index++, colors, vouchers);
-        row += updateRow(index++, colors, vouchers);
-        row += "</ons-row>";
-        ons += row;
-    }
-    document.getElementById("vouchers").innerHTML = ons;
-}
-
-function updateRow(index) {
-    var color = colors[index % colors.length];
-    if (index >= vouchers.length) {
-        return "<ons-col><div class='voucher_thumbnail'></div></ons-col>";
-    } else {
-        var voucher = vouchers[index];
-        return "<ons-col>" +
-            "<div class='voucher_thumbnail' style='background-color: " + color + "' onclick='myNavigator.pushPage(`redeem_reward.html`, {data: {title: `" + voucher + "`}})'>" +
-            voucher + "</div></ons-col>";
-    }
-}
-
-function updateHealthpointsQuantity(healthpoints, quantity) {
-    document.getElementById('healthpoints').innerText = healthpoints;
-    document.getElementById('quantity').innerText = quantity;
-}
-
-document.addEventListener('myevent', loggingjs.logEvent, true);
-
-/*function sendCustomEvent() {
-    console.log('sendCustomEvent');
-    document.dispatchEvent(new CustomEvent('myevent', {
-        detail: {
-            eventName: 'myeventName',
-            info: { 'key1': 'val1', 'key2': 'val2' }
-        }
-    }));
-}
+    <ons-navigator swipeable id="myNavigator">
+        <ons-page id="catalogue-page">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-toolbar-button>
+                        <ons-icon icon="fa-long-arrow-alt-left"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+                <div class="center">Healthy365</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
 
 
-function sendCustomEvent2() {
-    console.log('sendCustomEvent2');
-    loggingjs.logEvent(null, 'myevent2', {
-        eventName: 'myeventName',
-        info: { 'key1': 'val1', 'key2': 'val2' }
-    });
-}*/
 
-// When start is pressed, check if worker ID has been entered, if not, prompt
-// If entered, bring user to voucher catalogue page
-function startPressed() {
-    var workerID = document.getElementById('workerid').value;
+            <ons-tabbar swipeable position="bottom">
+                <ons-tab page="start_page.html" label="DASHBOARD" icon="fa-stopwatch" active>
+                </ons-tab>
+                <ons-tab label="CHALLENGES" icon="fa-flag" active-icon="md-face">
+                </ons-tab>
+                <ons-tab label="DIET JOURNAL" icon="fa-utensils" active-icon="md-face">
+                </ons-tab>
+                <ons-tab label="HISTORY" icon="fa-clipboard-list" active-icon="md-face">
+                </ons-tab>
+            </ons-tabbar>
+        </ons-page>
+    </ons-navigator>
 
-    if (workerID.length <= 0) {
-        ons.notification.toast('WorkerID Required', { timeout: 1000, animation: 'fall' });
-        sendUserErrorAction("User did not enter Worker ID");
-    }
-    else {
-        myNavigator.pushPage(`rewards.html`);
+    <template id="start_page.html">
+        <ons-page id="STARTPAGE">
 
-        loggingjs.logEvent(null, 'startpressed', {
-            eventName: 'startIsPressed',
-            info: { 'workerID': workerID }
-        });
-    }
+            <div style="text-align: center; margin-top: 20%;">
+                <h1 style="text-align: center;">
+                    Survey ID
+                </h1>
+                <p>
+                    <ons-input id="workerid" modifier="underbar" placeholder="Enter WorkerID" float></ons-input>
+                </p>
+            </div>
+            <p style="margin-top: 30px;">
+                <ons-button modifier="large" 
+                    onclick="startPressed()">Start</ons-button>
+            </p>
+        </ons-page>
 
-}
+    </template>
 
-// Check if the user pressed redeem on the correct voucher page
-function onRedeemPressed() {
-    var currentVoucherID = document.getElementById('vouchertitle').innerText;
-    var correctVoucherID = getUrlParam('voucher','Empty');
+    <template id="rewards.html">
+        <ons-page id="REWARDS">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button></ons-back-button>
+                </div>
+                <div class="center">Vouchers</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
 
-    var currentQuantity = document.getElementById('quantity').innerText;
-    var correctQuantity = getUrlParam('quantity', 1)
+            <div id="vouchers"></div>
 
-    console.log("current: " + currentVoucherID + " correct: " + correctVoucherID);
-    console.log("current: " + currentQuantity + " correct: " + correctQuantity);
+        </ons-page>
+    </template>
 
-    if (currentVoucherID == correctVoucherID) {
-        if (currentQuantity == correctQuantity) {
-           myNavigator.pushPage('correct_end.html');
+    <template id="redeem_reward.html">
+        <ons-page id="REDEEM_REWARD">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button></ons-back-button>
+                </div>
+                <div class="center">REDEEM REWARD</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
 
-        loggingjs.logEvent(null, 'correctend', {
-            eventName: 'correctEndReached',
-        }); 
-        }
-        else {
-            ons.notification.toast('Wrong quanntity entered, press the plus and minus to get the right quantity!', { timeout: 1000, animation: 'fall' });
+            <ons-card class="redeem">
+                <br />
+                <div class="title" id="vouchertitle"></div>
+                <br />
+                <div class="content">
+                    <div class="redeem_content" style="font-weight: bold">$5 eVoucher</div>
+                    <div class="redeem_content">750 healthpoints</div>
+                    <br />
+                    <ons-row>
+                        <ons-col class="redeem_content">Healthpoints</ons-col>
+                        <ons-col class="redeem_content">Quantity</ons-col>
+                    </ons-row>
+                    <br />
+                    <ons-row>
+                        <ons-col class="redeem_content" id="healthpoints"></ons-col>
+                        <ons-col class="redeem_content">
+                            <ons-row>
+                                <ons-col>
+                                    <ons-icon icon="ion-ios-remove-circle-outline" size="lg" id="remove_quantity">
+                                    </ons-icon>
+                                </ons-col>
+                                <ons-col id="quantity"></ons-col>
+                                <ons-col>
+                                    <ons-icon icon="ion-ios-add-circle-outline" size="lg" id="add_quantity"></ons-icon>
+                                </ons-col>
+                            </ons-row>
+                        </ons-col>
+                    </ons-row>
+                    <br />
+                    <ons-list>
+                        <ons-list-header>Reward Information</ons-list-header>
+                        <ons-list-item>Please brighten your screen display before using the eVoucher</ons-list-item>
+                        <ons-list-item>Accepted at all outlets except Causeway Point</ons-list-item>
+                    </ons-list>
+                </div>
+            </ons-card>
 
-        sendUserErrorAction("Wrong quantity entered")
-        }
-        
-    }
-    else {
-        ons.notification.toast('Wrong voucher page, please go back and continue trying!', { timeout: 1000, animation: 'fall' });
-
-        sendUserErrorAction("Wrong voucher redeemed")
-    }
-}
+            <ons-bottom-toolbar>
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem</ons-button>
+            </ons-bottom-toolbar>
 
 
-// Util functions
-function sendUserErrorAction(description) {
-    loggingjs.logEvent(null, 'usererror', {
-        eventName: 'userErrorAction',
-        info: { 'description': description }
-    });
-}
+        </ons-page>
+    </template>
 
-function getUrlParam(parameter, defaultvalue){
-    var urlparameter = defaultvalue;
-    if(window.location.href.indexOf(parameter) > -1){
-        urlparameter = getUrlVars()[parameter];
-        }
-    return urlparameter;
-}
+    <template id="correct_end.html">
+        <ons-page id="CORRECTEND">
 
-function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
-    });
-    return vars;
-}
+            <div style="text-align: center; margin-top: 20%; margin-left: 8px; margin-right: 8px">
+                <h2 style="text-align: center;">
+                    You've successfully completed the task, thank you!
+                    Enter this password in the survey:
+                </h2>
+                <h1>
+                    HY63F8
+                </h1>
+            </div>
+            <p style="margin-top: 30px; margin-left: 8px; margin-right: 8px">
+                You can close this window/tab now and proceed with the survey.
+            </p>
+        </ons-page>
+
+    </template>
+
+</body>
+
+</html>
