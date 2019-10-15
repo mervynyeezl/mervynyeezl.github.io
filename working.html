@@ -47,7 +47,7 @@
     <template id="start_page.html">
         <ons-page id="STARTPAGE">
 
-            <div style="text-align: center; margin-top: 40%;">
+            <div style="text-align: center; margin-top: 20%;">
                 <h1 style="text-align: center;">
                     Survey ID
                 </h1>
@@ -98,7 +98,7 @@
 
             <ons-card class="redeem">
                 <br />
-                <div class="title"></div>
+                <div class="title" id="vouchertitle"></div>
                 <br />
                 <div class="content">
                     <div class="redeem_content" style="font-weight: bold">$5 eVoucher</div>
@@ -134,20 +134,31 @@
             </ons-card>
 
             <ons-bottom-toolbar>
-                <ons-button class="redeem_button" modifier="large--quiet">Redeem</ons-button>
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem</ons-button>
             </ons-bottom-toolbar>
 
 
         </ons-page>
     </template>
 
-    <ons-button onclick="alert('Hello World!')">Click Me</ons-button>
+    <template id="correct_end.html">
+        <ons-page id="CORRECTEND">
 
+            <div style="text-align: center; margin-top: 20%; margin-left: 8px; margin-right: 8px">
+                <h2 style="text-align: center;">
+                    You've successfully completed the task, thank you!
+                    Enter this password in the survey:
+                </h2>
+                <h1>
+                    HY63F8
+                </h1>
+            </div>
+            <p style="margin-top: 30px; margin-left: 8px; margin-right: 8px">
+                You can close this window/tab now and proceed with the survey.
+            </p>
+        </ons-page>
 
-    <div id="label">Label</div>
-    <input id="inText" type="text" />
-    <input id="btn" value="Send Custom Event" type="button" onclick="sendCustomEvent()" />
-    <input id="btn2" value="Send Custom Event 2" type="button" onclick="sendCustomEvent2()" />
+    </template>
 
 </body>
 
