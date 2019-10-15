@@ -16,7 +16,7 @@ document.addEventListener('init', function (event) {
         page.querySelector('.title').innerText = page.data.title;
 
         var multiple = 750;
-        var healthpoints = 0;
+        var healthpoints = 750;
         var quantity = 1;
         updateHealthpointsQuantity(healthpoints, quantity);
         page.querySelector('#add_quantity').onclick = function () {
