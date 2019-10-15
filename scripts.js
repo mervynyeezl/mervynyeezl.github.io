@@ -105,11 +105,17 @@ function startPressed() {
 
 // Check if the user pressed redeem on the correct voucher page
 function onRedeemPressed() {
+
+    var trailNum = getUrlParam('trailnum', 1);
+
+    var titles = ['KOI', 'Klook', 'FairPrice', 'Hillion', 'Lazada', 'LiHo', 'Actxa', 'Sportslink', 'Sembawang Shopping Centre', 'Simply Wrapps', 'Osim', 'Kallang Wave Mall'];
+    var quantities = [1,1,1,1,1,1,1,1,1,1,1,1];
+
     var currentVoucherID = document.getElementById('vouchertitle').innerText;
-    var correctVoucherID = getUrlParam('voucher','Empty');
+    var correctVoucherID = titles[trailNum];
 
     var currentQuantity = document.getElementById('quantity').innerText;
-    var correctQuantity = getUrlParam('quantity', 1)
+    var correctQuantity = quantities[trailNum];
 
     console.log("current: " + currentVoucherID + " correct: " + correctVoucherID);
     console.log("current: " + currentQuantity + " correct: " + correctQuantity);
