@@ -56,8 +56,7 @@
                 </p>
             </div>
             <p style="margin-top: 30px;">
-                <ons-button modifier="large" 
-                    onclick="startPressed()">Start</ons-button>
+                <ons-button modifier="large" onclick="startPressed()">Start</ons-button>
             </p>
         </ons-page>
 
@@ -134,11 +133,36 @@
             </ons-card>
 
             <ons-bottom-toolbar>
-                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem</ons-button>
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem
+                </ons-button>
             </ons-bottom-toolbar>
 
 
         </ons-page>
+    </template>
+
+    <template id="cart.html">
+        <ons-page id="CART">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button id="cart_back_button"></ons-back-button>
+                </div>
+                <div class="center">YOUR CART</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+
+            <ons-list>
+                <ons-list-header>Vouchers Selected</ons-list-header>
+                <div id="cart_items">
+                </div>
+            </ons-list>
+
+        </ons-page>
+
     </template>
 
     <template id="correct_end.html">
