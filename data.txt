@@ -1,0 +1,24 @@
+Name,Type,Category
+TapForMore,P,Others
+Transitlink,P,Others
+AIBI,V,Wellness
+BOUNCE,V,Wellness
+FairPrice,V,Others
+Hillion,V,Retail
+Kallang Wave Mall,V,Retail
+Key Power Sports,V,Retail
+KLOOK,V,Travel
+KOI,V,Food
+Lazada,V,Retail
+LiHO,V,Food
+Mr Bean,V,Food
+Polar Puffs & Cakes,V,Food
+Qi Ji,V,Food
+QQ Rice,V,Food
+Sembawang Shopping Centre,V,Food
+Simply Wrapps,V,Food
+Sportslink,V,Wellness
+Actxa,V,Wellness
+AsiaMalls,V,Retail
+FairPrice Online App/Web,V,Others
+OSIM,V,Retail

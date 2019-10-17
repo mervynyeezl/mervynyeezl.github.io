@@ -1,7 +1,61 @@
-var vouchers = ["TapForMore", "Transitlink", "AIBI", "BOUNCE", "FairPrice", "Hillion", "Kallang Wave Mall", "Key Power", "Klook", "KOI", "Lazada", "LiHo", "Mr Bean", "Polar Puffs & Cakes", "Qi Ji", "QQ Rice", "Sembawang Shopping Centre", "Simply Wrapps", "Sportslink", "Actxa", "AsiiaMalls", "FairPrice Online App/Web", "Osim"];
+const categoryGroup = new CategoryGroup();
+
 var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
 var cartItems = [];
+
+function CategoryGroup() {
+    this.categories = {};
+
+    this.getCategory = function(name) {
+        if (!(name in this.categories)) {
+            this.categories[name] = new Category();
+        }
+        return this.categories[name];
+    };
+    this.getNames = function() {
+        return Object.keys(this.categories).sort();
+    };
+}
+
+function Category() {
+    this.rewards = [];
+
+    this.addReward = function(reward) {
+        this.rewards.push(reward);
+    };
+}
+
+function Reward(name, type) {
+    this.name = name;
+    this.type = type; // "V" - voucher, "P" - points
+}
+
+$(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "data.txt",
+        dataType: "text",
+        success: function(data) {
+            processData(data);
+        }
+    });
+});
+
+function processData(allText) {
+    var allTextLines = allText.split(/\r\n|\n/);
+    var headers = allTextLines[0].split(',');
+    var lines = [];
+    for (var index = 1; index < allTextLines.length; index++) {
+        var data = allTextLines[index].split(',');
+        if (data.length == headers.length) {
+            var name = data[0];
+            var type = data[1];
+            var category = data[2];
+            categoryGroup.getCategory(category).addReward(new Reward(name, type));
+        }
+    }
+}
 
 document.addEventListener('prechange', function (event) {
     document.querySelector('ons-toolbar .center')
@@ -11,12 +65,15 @@ document.addEventListener('prechange', function (event) {
 document.addEventListener('init', function (event) {
     var page = event.target;
 
-    if (page.id === 'REWARDS') {
-        updateVouchers();
+    if (page.id == 'REWARDS') {
+        var categoryNames = categoryGroup.getNames();
+        updateCategorySegment(categoryNames);
+        var categoryIndex = document.getElementById('segment').getActiveButtonIndex();
+        var rewards = getRewards([categoryNames[categoryIndex]]); //getRewards(categoryNames) if no categorisation also remember to hide category div
+        updateRewards(rewards);
 
-    } else if (page.id === 'REDEEM_REWARD') {
+    } else if (page.id == 'REDEEM_VOUCHER') {
         page.querySelector('.title').innerText = page.data.title;
-
         var multiple = 750;
         var healthpoints = 750;
         var quantity = 1;
@@ -31,15 +88,43 @@ document.addEventListener('init', function (event) {
             quantity = Math.max(quantity - 1, 1)
             updateHealthpointsQuantity(healthpoints, quantity);
         };
+
+    } else if (page.id == 'REDEEM_POINTS') {
+        var outletSpans = page.querySelectorAll('.outlet');
+        for (outletSpan of outletSpans) {
+            outletSpan.innerText = page.data.title;
+        }
+        var multiple = 150;
+        var healthpoints = 0;
+        var quantity = 0;
+        updateHealthpointsQuantity(healthpoints, quantity);
+        page.querySelector('#points_slider').onchange = function () {
+            quantity = document.getElementById('points_slider').value;
+            healthpoints = quantity * multiple;
+            updateHealthpointsQuantity(healthpoints, quantity);
+        }
+        $('#card_id').on('input', function() {
+          var value = $('#card_id').val();
+          var formattedValue = formatCardNumber(value);
+          $('#card_id').val(formattedValue);
+        });
+
     } else if (page.id == 'CART') {
         updateCart();
     }
 });
 
+document.addEventListener('postchange', function (event) {
+    var categoryNames = categoryGroup.getNames();
+    var categoryIndex = document.getElementById('segment').getActiveButtonIndex();
+    var rewards = getRewards([categoryNames[categoryIndex]]); //getRewards(categoryNames) if no categorisation
+    updateRewards(rewards);
+});
+
 document.addEventListener('postpop', function(event) {
     var page = event.target.topPage;
     console.log(page.id);
-    if (page.id === 'REDEEM_REWARD') {
+    if (page.id === 'REDEEM_VOUCHER') {
         
         page.querySelector('.title').innerText = page.data.title;
 
@@ -60,34 +145,69 @@ document.addEventListener('postpop', function(event) {
     }
 });
 
-function updateVouchers() {
+function getRewards(categoryNames) {
+    var rewards = [];
+    for (name of categoryNames) {
+        var category = categoryGroup.getCategory(name);
+        rewards = rewards.concat(category.rewards);
+    }
+    return rewards;
+}
+
+function updateCategorySegment(categoryNames) {
+    var ons = "<ons-segment id='segment' style='width: 100%' active-index='0'>";
+    for (name of categoryNames) {
+        ons += "<button>" + name + "</button>";
+    }
+    ons += "</ons-segment>";
+    document.getElementById("categories").innerHTML = ons;
+}
+
+function updateRewards(rewards) {
     var ons = "";
     var index = 0;
-    while (index < vouchers.length) {
+    while (index < rewards.length) {
         row = "<ons-row class='user_cover'>";
-        row += updateRow(index++, colors, vouchers);
-        row += updateRow(index++, colors, vouchers);
+        row += updateRow(index++, colors, rewards);
+        row += updateRow(index++, colors, rewards);
         row += "</ons-row>";
         ons += row;
     }
-    document.getElementById("vouchers").innerHTML = ons;
+    document.getElementById("rewards").innerHTML = ons;
 }
 
-function updateRow(index) {
+function updateRow(index, colors, rewards) {
     var color = colors[index % colors.length];
-    if (index >= vouchers.length) {
+    if (index >= rewards.length) {
         return "<ons-col><div class='voucher_thumbnail'></div></ons-col>";
     } else {
-        var voucher = vouchers[index];
-        return "<ons-col>" +
-            "<div class='voucher_thumbnail' style='background-color: " + color + "' onclick='myNavigator.pushPage(`redeem_reward.html`, {data: {title: `" + voucher + "`}})'>" +
-            voucher + "</div></ons-col>";
+        var reward = rewards[index];
+        var ons = "<ons-col><div class='voucher_thumbnail' style='background-color: " + color + "' onclick='myNavigator.pushPage(`redeem_";
+        if (reward.type == "V") {
+            ons += "voucher";
+        } else {
+            ons += "points";
+        }
+        ons += ".html`, {data: {title: `" + reward.name + "`}})'>" + reward.name + "</div></ons-col>";
+        return ons;
     }
 }
 
 function updateHealthpointsQuantity(healthpoints, quantity) {
     document.getElementById('healthpoints').innerText = healthpoints;
     document.getElementById('quantity').innerText = quantity;
+}
+
+function formatCardNumber(value) {
+    // remove all non digit characters
+    var value = value.replace(/\D/g, '');
+    var formattedValue;
+    var maxLength;
+    formattedValue = value.replace(/(\d{4})/, '$1 ').replace(/(\d{4}) (\d{4})/, '$1 $2 ').replace(/(\d{4}) (\d{4}) (\d{4})/, '$1 $2 $3 ');
+    maxLength = 19;
+
+    $('#card_id').attr('maxlength', maxLength);
+    return formattedValue;
 }
 
 document.addEventListener('myevent', loggingjs.logEvent, true);
