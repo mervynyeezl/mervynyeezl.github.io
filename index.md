@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
     <link rel="stylesheet" href="lib/onsen/css/onsen-css-components.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="lib/onsen/js/onsenui.min.js"></script>
     <script src="logging.js"></script>
     <script src="scripts.js"></script>
@@ -68,7 +69,7 @@
                 <div class="left">
                     <ons-back-button></ons-back-button>
                 </div>
-                <div class="center">Vouchers</div>
+                <div class="center">REWARDS</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
@@ -76,7 +77,9 @@
                 </div>
             </ons-toolbar>
 
-            <div id="vouchers"></div>
+            <div id="categories"></div>
+
+            <div id="rewards"></div>
 
         </ons-page>
     </template>
@@ -87,7 +90,7 @@
                 <div class="left">
                     <ons-back-button></ons-back-button>
                 </div>
-                <div class="center">REDEEM REWARD</div>
+                <div class="center">REDEEM VOUCHER</div>
                 <div class="right">
                     <ons-toolbar-button>
                         <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
@@ -129,6 +132,50 @@
                         <ons-list-item>Please brighten your screen display before using the eVoucher</ons-list-item>
                         <ons-list-item>Accepted at all outlets except Causeway Point</ons-list-item>
                     </ons-list>
+                </div>
+            </ons-card>
+
+            <ons-bottom-toolbar>
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem
+                </ons-button>
+            </ons-bottom-toolbar>
+
+
+        </ons-page>
+    </template>
+
+    <template id="redeem_points.html">
+        <ons-page id="REDEEM_POINTS">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button></ons-back-button>
+                </div>
+                <div class="center">REDEEM POINTS</div>
+                <div class="right">
+                    <ons-toolbar-button>
+                        <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+            </ons-toolbar>
+
+            <ons-card class="redeem">
+                <br />
+                <div class="title" id="pointtitle"><span class="outlet"></span></div>
+                <br />
+                <div class="content">
+                    <div class="redeem_content" style="font-weight: bold">150 Healthpoint = 1 <span class="outlet"></span> Point</div>
+                    <div class="redeem_content">subjected to Terms and Conditions</div>
+                    <br />
+                    <p>
+                        Slide to select no. of Healthpoints for redemption<br />
+                        <span id="healthpoints"></span> Healthpoint(s) | <span id="quantity"></span> <span class="outlet"></span> Point(s)<br />
+                        <ons-range id="points_slider" style="width: 100%" min="0" max="100" step="1" value="0"></ons-range>
+                    </p>
+                    <br />
+                    <p>
+                        Enter CARD ID<br />
+                        <ons-input id="card_id" class="redeem_content" name="card_id" modifier="underbar"></ons-input>
+                    </p>
                 </div>
             </ons-card>
 
