@@ -81,8 +81,8 @@
         </ons-page>
     </template>
 
-    <template id="redeem_reward.html">
-        <ons-page id="REDEEM_REWARD">
+    <template id="redeem_voucher.html">
+        <ons-page id="REDEEM_VOUCHER">
             <ons-toolbar>
                 <div class="left">
                     <ons-back-button></ons-back-button>
