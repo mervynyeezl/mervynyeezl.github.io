@@ -1,6 +1,8 @@
 var vouchers = ["TapForMore", "Transitlink", "AIBI", "BOUNCE", "FairPrice", "Hillion", "Kallang Wave Mall", "Key Power", "Klook", "KOI", "Lazada", "LiHo", "Mr Bean", "Polar Puffs & Cakes", "Qi Ji", "QQ Rice", "Sembawang Shopping Centre", "Simply Wrapps", "Sportslink", "Actxa", "AsiiaMalls", "FairPrice Online App/Web", "Osim"];
 var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
+var cartItems = [];
+
 document.addEventListener('prechange', function (event) {
     document.querySelector('ons-toolbar .center')
         .innerHTML = event.tabItem.getAttribute('label');
@@ -13,6 +15,32 @@ document.addEventListener('init', function (event) {
         updateVouchers();
 
     } else if (page.id === 'REDEEM_REWARD') {
+        page.querySelector('.title').innerText = page.data.title;
+
+        var multiple = 750;
+        var healthpoints = 750;
+        var quantity = 1;
+        updateHealthpointsQuantity(healthpoints, quantity);
+        page.querySelector('#add_quantity').onclick = function () {
+            healthpoints = healthpoints + multiple;
+            quantity = quantity + 1;
+            updateHealthpointsQuantity(healthpoints, quantity);
+        };
+        page.querySelector('#remove_quantity').onclick = function () {
+            healthpoints = Math.max(healthpoints - multiple, 0);
+            quantity = Math.max(quantity - 1, 1)
+            updateHealthpointsQuantity(healthpoints, quantity);
+        };
+    } else if (page.id == 'CART') {
+        updateCart();
+    }
+});
+
+document.addEventListener('postpop', function(event) {
+    var page = event.target.topPage;
+    console.log(page.id);
+    if (page.id === 'REDEEM_REWARD') {
+        
         page.querySelector('.title').innerText = page.data.title;
 
         var multiple = 750;
@@ -109,7 +137,7 @@ function onRedeemPressed() {
     var trailNum = getUrlParam('trailnum', 1);
 
     var titles = ['KOI', 'Klook', 'FairPrice', 'Hillion', 'Lazada', 'LiHo', 'Actxa', 'Sportslink', 'Sembawang Shopping Centre', 'Simply Wrapps', 'Osim', 'Kallang Wave Mall'];
-    var quantities = [1,1,1,1,1,1,1,1,1,1,1,1];
+    var quantities = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
     var currentVoucherID = document.getElementById('vouchertitle').innerText;
     var correctVoucherID = titles[trailNum];
@@ -120,6 +148,20 @@ function onRedeemPressed() {
     console.log("current: " + currentVoucherID + " correct: " + correctVoucherID);
     console.log("current: " + currentQuantity + " correct: " + correctQuantity);
 
+    if (cartItems.length == 0)
+        cartItems.push({ id: currentVoucherID, quantity: currentQuantity });
+
+    for (i = 0; i < cartItems.length; i++) {
+        if (cartItems[i].id == currentVoucherID) {
+            cartItems[i].quantity = currentQuantity;
+            break;
+        }
+        else if (i == cartItems.length - 1) {
+            cartItems.push({ id: currentVoucherID, quantity: currentQuantity });
+        }
+    }
+    myNavigator.pushPage('cart.html');
+    /*
     if (currentVoucherID == correctVoucherID) {
         if (currentQuantity == correctQuantity) {
            myNavigator.pushPage('correct_end.html');
@@ -139,9 +181,31 @@ function onRedeemPressed() {
         ons.notification.toast('Wrong voucher page, please go back and continue trying!', { timeout: 1000, animation: 'fall' });
 
         sendUserErrorAction("Wrong voucher redeemed")
-    }
+    }*/
 }
 
+function goToVoucher(targetTitle) {
+    myNavigator.popPage({ data: { title: targetTitle } });
+}
+
+function updateCart() {
+    var ons = "";
+    var index = 0;
+    document.getElementById("cart_back_button").onClick = function (event) {
+        // Reset the whole stack instead of popping 1 page
+        document.querySelector('ons-navigator').resetToPage('rewards.html');
+    };
+
+    while (index < cartItems.length) {
+        row = "<ons-list-item>";
+        row += "X " + cartItems[index].quantity + " " + cartItems[index].id;
+        row += "<ons-button padding: 8px modifier='quiet' ";
+        row += "onclick=\"goToVoucher(" + "'" + cartItems[index++].id + "'" + ")\" >edit</ons-button>";
+        row += "</ons-list-item>";
+        ons += row;
+    }
+    document.getElementById("cart_items").innerHTML = ons;
+}
 
 // Util functions
 function sendUserErrorAction(description) {
@@ -151,17 +215,17 @@ function sendUserErrorAction(description) {
     });
 }
 
-function getUrlParam(parameter, defaultvalue){
+function getUrlParam(parameter, defaultvalue) {
     var urlparameter = defaultvalue;
-    if(window.location.href.indexOf(parameter) > -1){
+    if (window.location.href.indexOf(parameter) > -1) {
         urlparameter = getUrlVars()[parameter];
-        }
+    }
     return urlparameter;
 }
 
 function getUrlVars() {
     var vars = {};
-    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function (m, key, value) {
         vars[key] = value;
     });
     return vars;
