@@ -18,9 +18,9 @@
         <ons-page id="catalogue-page">
             <ons-toolbar>
                 <div class="left">
-                    <ons-toolbar-button>
+                    <!--ons-toolbar-button>
                         <ons-icon icon="fa-long-arrow-alt-left"></ons-icon>
-                    </ons-toolbar-button>
+                    </ons-toolbar-button-->
                 </div>
                 <div class="center">Healthy365</div>
                 <div class="right">
@@ -47,6 +47,7 @@
 
     <template id="start_page.html">
         <ons-page id="STARTPAGE">
+            <div class="objectives_text" class="center"></div>
 
             <div style="text-align: center; margin-top: 20%;">
                 <h1 style="text-align: center;">
@@ -65,6 +66,7 @@
 
     <template id="rewards.html">
         <ons-page id="REWARDS">
+
             <ons-toolbar>
                 <div class="left">
                     <ons-back-button></ons-back-button>
@@ -76,9 +78,9 @@
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
+            <div class="objectives_text" class="center"></div>
 
             <div id="categories"></div>
-
             <div id="rewards"></div>
 
         </ons-page>
@@ -86,6 +88,7 @@
 
     <template id="redeem_voucher.html">
         <ons-page id="REDEEM_VOUCHER">
+
             <ons-toolbar>
                 <div class="left">
                     <ons-back-button></ons-back-button>
@@ -98,7 +101,10 @@
                 </div>
             </ons-toolbar>
 
+
+
             <ons-card class="redeem">
+                <div class="objectives_text" class="center"></div>
                 <br />
                 <div class="title" id="vouchertitle"></div>
                 <br />
@@ -146,6 +152,7 @@
 
     <template id="redeem_points.html">
         <ons-page id="REDEEM_POINTS">
+            <div class="objectives_text" class="center"></div>
             <ons-toolbar>
                 <div class="left">
                     <ons-back-button></ons-back-button>
@@ -160,16 +167,19 @@
 
             <ons-card class="redeem">
                 <br />
-                <div class="title" id="pointtitle"><span class="outlet"></span></div>
+                <div class="title" id="vouchertitle"><span class="outlet"></span></div>
                 <br />
                 <div class="content">
-                    <div class="redeem_content" style="font-weight: bold">150 Healthpoint = 1 <span class="outlet"></span> Point</div>
+                    <div class="redeem_content" style="font-weight: bold">150 Healthpoint = 1 <span
+                            class="outlet"></span> Point</div>
                     <div class="redeem_content">subjected to Terms and Conditions</div>
                     <br />
                     <p>
                         Slide to select no. of Healthpoints for redemption<br />
-                        <span id="healthpoints"></span> Healthpoint(s) | <span id="quantity"></span> <span class="outlet"></span> Point(s)<br />
-                        <ons-range id="points_slider" style="width: 100%" min="0" max="100" step="1" value="0"></ons-range>
+                        <span id="healthpoints"></span> Healthpoint(s) | <span id="quantity"></span> <span
+                            class="outlet"></span> Point(s)<br />
+                        <ons-range id="points_slider" style="width: 100%" min="0" max="100" step="1" value="0">
+                        </ons-range>
                     </p>
                     <br />
                     <p>
