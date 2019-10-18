@@ -2,18 +2,28 @@ const categoryGroup = new CategoryGroup();
 
 var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
-var cartItems = [];
+var objectives = [];
+
+var ansNum = 0;
+// type: 0 - Voucher, 1 - Points Redemption
+var allAns = [
+    [{ name: 'Lazada', quantity: 1, value: 5 }],
+    [{ name: 'AsiaMalls', quantity: 1, value: 5 }, { name: 'Hillion', quantity: 2, value: 5 }], //Trail 2
+    [{ name: 'KOI', quantity: 1, value: 5 }, { name: 'FairPrice', quantity: 2, value: 10 }, { name: 'AsiaMalls', quantity: 3, value: 20 }],
+    [{ name: 'TapForMore', quantity: 30, value: 1 }],
+    [{ name: 'TapForMore', quantity: 20, value: 1 }, { name: 'Transitlink', quantity: 30, value: 1 }] //Trail 1
+]
 
 function CategoryGroup() {
     this.categories = {};
 
-    this.getCategory = function(name) {
+    this.getCategory = function (name) {
         if (!(name in this.categories)) {
             this.categories[name] = new Category();
         }
         return this.categories[name];
     };
-    this.getNames = function() {
+    this.getNames = function () {
         return Object.keys(this.categories).sort();
     };
 }
@@ -21,7 +31,7 @@ function CategoryGroup() {
 function Category() {
     this.rewards = [];
 
-    this.addReward = function(reward) {
+    this.addReward = function (reward) {
         this.rewards.push(reward);
     };
 }
@@ -31,15 +41,18 @@ function Reward(name, type) {
     this.type = type; // "V" - voucher, "P" - points
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     $.ajax({
         type: "GET",
         url: "data.txt",
         dataType: "text",
-        success: function(data) {
+        success: function (data) {
             processData(data);
         }
     });
+    ansNum = getUrlParam('ansnum', 0);
+
+    objectives = allAns[ansNum];
 });
 
 function processData(allText) {
@@ -57,6 +70,55 @@ function processData(allText) {
     }
 }
 
+// e.g.
+// Objectives left:
+// 1 x Koi $5
+// 2 x LiHo $5
+// 3 x KLOOK $10
+//
+// e.g.
+// Objectives left:
+// TapForMore 5000 Points
+// Transitlink 3000 Points
+function updateObjectives() {
+    var toastText = "Objectives left:";
+
+    if (ansNum <= 3) {
+        var textToAdd = " ";
+
+        for (i = 0; i < objectives.length; i++) {
+            textToAdd += objectives[i].quantity;
+            textToAdd += " x ";
+            textToAdd += objectives[i].name;
+            textToAdd += " $";
+            textToAdd += objectives[i].value;
+            textToAdd += " | ";
+        }
+
+        toastText += textToAdd;
+    }
+    else {
+        var textToAdd = " ";
+
+        for (i = 0; i < objectives.length; i++) {
+            textToAdd += objectives[i].name;
+            textToAdd += " ";
+            textToAdd += objectives[i].quantity;
+            textToAdd += " Points | ";
+        }
+
+        toastText += textToAdd;
+    }
+
+    toastText += "";
+    var elementsToChange = document.getElementsByClassName("objectives_text");
+
+    for (i=0; i<elementsToChange.length; i++) {
+        elementsToChange[i].innerHTML = toastText;
+    }
+    
+}
+
 document.addEventListener('prechange', function (event) {
     document.querySelector('ons-toolbar .center')
         .innerHTML = event.tabItem.getAttribute('label');
@@ -65,6 +127,8 @@ document.addEventListener('prechange', function (event) {
 document.addEventListener('init', function (event) {
     var page = event.target;
 
+    updateObjectives();
+    
     if (page.id == 'REWARDS') {
         var categoryNames = categoryGroup.getNames();
         updateCategorySegment(categoryNames);
@@ -98,15 +162,15 @@ document.addEventListener('init', function (event) {
         var healthpoints = 0;
         var quantity = 0;
         updateHealthpointsQuantity(healthpoints, quantity);
-        page.querySelector('#points_slider').onchange = function () {
+        page.querySelector('#points_slider').oninput = function () {
             quantity = document.getElementById('points_slider').value;
             healthpoints = quantity * multiple;
             updateHealthpointsQuantity(healthpoints, quantity);
         }
-        $('#card_id').on('input', function() {
-          var value = $('#card_id').val();
-          var formattedValue = formatCardNumber(value);
-          $('#card_id').val(formattedValue);
+        $('#card_id').on('input', function () {
+            var value = $('#card_id').val();
+            var formattedValue = formatCardNumber(value);
+            $('#card_id').val(formattedValue);
         });
 
     } else if (page.id == 'CART') {
@@ -121,11 +185,12 @@ document.addEventListener('postchange', function (event) {
     updateRewards(rewards);
 });
 
-document.addEventListener('postpop', function(event) {
+document.addEventListener('postpop', function (event) {
     var page = event.target.topPage;
+
     console.log(page.id);
     if (page.id === 'REDEEM_VOUCHER') {
-        
+
         page.querySelector('.title').innerText = page.data.title;
 
         var multiple = 750;
@@ -138,7 +203,7 @@ document.addEventListener('postpop', function(event) {
             updateHealthpointsQuantity(healthpoints, quantity);
         };
         page.querySelector('#remove_quantity').onclick = function () {
-            healthpoints = Math.max(healthpoints - multiple, 0);
+            healthpoints = Math.max(healthpoints - multiple, 750);
             quantity = Math.max(quantity - 1, 1)
             updateHealthpointsQuantity(healthpoints, quantity);
         };
@@ -254,54 +319,33 @@ function startPressed() {
 // Check if the user pressed redeem on the correct voucher page
 function onRedeemPressed() {
 
-    var trailNum = getUrlParam('trailnum', 1);
-
-    var titles = ['KOI', 'Klook', 'FairPrice', 'Hillion', 'Lazada', 'LiHo', 'Actxa', 'Sportslink', 'Sembawang Shopping Centre', 'Simply Wrapps', 'Osim', 'Kallang Wave Mall'];
-    var quantities = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-
     var currentVoucherID = document.getElementById('vouchertitle').innerText;
-    var correctVoucherID = titles[trailNum];
 
     var currentQuantity = document.getElementById('quantity').innerText;
-    var correctQuantity = quantities[trailNum];
 
-    console.log("current: " + currentVoucherID + " correct: " + correctVoucherID);
-    console.log("current: " + currentQuantity + " correct: " + correctQuantity);
-
-    if (cartItems.length == 0)
-        cartItems.push({ id: currentVoucherID, quantity: currentQuantity });
-
-    for (i = 0; i < cartItems.length; i++) {
-        if (cartItems[i].id == currentVoucherID) {
-            cartItems[i].quantity = currentQuantity;
-            break;
-        }
-        else if (i == cartItems.length - 1) {
-            cartItems.push({ id: currentVoucherID, quantity: currentQuantity });
+    for (i=0; i<objectives.length; i++) {
+        if (objectives[i].name == currentVoucherID) {
+            if (objectives[i].quantity == currentQuantity) {
+                objectives.splice(i,1);
+                updateObjectives();
+                if (objectives.length<=0) {
+                    sendTrailCompleteAction();
+                    myNavigator.pushPage('correct_end.html');
+                }
+                else {
+                    myNavigator.resetToPage('rewards.html');
+                }
+                
+            } else {
+                ons.notification.toast('Right Voucher but wrong Quantity!', {timeout: 3000, animation:'fall'});
+                sendUserErrorAction("Wrong voucher quantity redeemed");
+            }
+           
+        } else {
+            ons.notification.toast('Wrong Voucher!', {timeout: 3000, animation:'fall'});
+            sendUserErrorAction("Wrong voucher name redeemed");
         }
     }
-    myNavigator.pushPage('cart.html');
-    /*
-    if (currentVoucherID == correctVoucherID) {
-        if (currentQuantity == correctQuantity) {
-           myNavigator.pushPage('correct_end.html');
-
-        loggingjs.logEvent(null, 'correctend', {
-            eventName: 'correctEndReached',
-        }); 
-        }
-        else {
-            ons.notification.toast('Wrong quanntity entered, press the plus and minus to get the right quantity!', { timeout: 1000, animation: 'fall' });
-
-        sendUserErrorAction("Wrong quantity entered")
-        }
-        
-    }
-    else {
-        ons.notification.toast('Wrong voucher page, please go back and continue trying!', { timeout: 1000, animation: 'fall' });
-
-        sendUserErrorAction("Wrong voucher redeemed")
-    }*/
 }
 
 function goToVoucher(targetTitle) {
@@ -332,6 +376,13 @@ function sendUserErrorAction(description) {
     loggingjs.logEvent(null, 'usererror', {
         eventName: 'userErrorAction',
         info: { 'description': description }
+    });
+}
+
+function sendTrailCompleteAction() {
+    loggingjs.logEvent(null, 'usercompelte', {
+        eventName: 'userErrorAction',
+        info: { 'description': 'User successfully completed trail' }
     });
 }
 
