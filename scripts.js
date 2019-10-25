@@ -4,15 +4,25 @@ var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
 var objectives = [];
 
+var workerID;
+
 var ansNum = 0;
 // type: 0 - Voucher, 1 - Points Redemption
 var allAns = [
-    [{ name: 'Lazada', quantity: 1, value: 5 }],
-    [{ name: 'AsiaMalls', quantity: 1, value: 5 }, { name: 'Hillion', quantity: 2, value: 5 }], //Trail 2
-    [{ name: 'KOI', quantity: 1, value: 5 }, { name: 'FairPrice', quantity: 2, value: 10 }, { name: 'AsiaMalls', quantity: 3, value: 20 }],
-    [{ name: 'TapForMore', quantity: 30, value: 1 }],
-    [{ name: 'TapForMore', quantity: 20, value: 1 }, { name: 'Transitlink', quantity: 30, value: 1 }] //Trail 1
+    [{ name: 'KOI', quantity: 1, value: 5 }], // ansNum = 0
+    [{ name: 'Sportslink', quantity: 1, value: 10 }], // ansNum = 1
+    [{ name: 'Asiamall', quantity: 1, value: 20 }], // ansNum = 2
+    [{ name: 'LiHO', quantity: 1, value: 5 }, { name: 'Qi Ji', quantity: 2, value: 5 }], // ansNum = 3
+    [{ name: 'Key Power Sports', quantity: 1, value: 10 }, { name: 'Hillion', quantity: 2, value: 10 }], // ansNum = 4
+    [{ name: 'Mr Bean', quantity: 1, value: 5 }, { name: 'Actxa', quantity: 1, value: 10 }, { name: 'Hillion', quantity: 2, value: 10 }], // ansNum = 5
+    [{ name: 'Transitlink', quantity: 5, value: 1 }], // ansNum = 6
+    [{ name: 'TapForMore', quantity: 10, value: 1 }], // ansNum = 7
+    [{ name: 'Transitlink', quantity: 20, value: 1 }], // ansNum = 8
+    [{ name: 'Transitlink', quantity: 5, value: 1 }, { name: 'TapForMore', quantity: 5, value: 1 }], // ansNum = 9
+    [{ name: 'Transitlink', quantity: 10, value: 1 }, { name: 'TapForMore', quantity: 20, value: 1 }], // ansNum = 10
+    [{ name: 'Transitlink', quantity: 20, value: 1 }, { name: 'TapForMore', quantity: 1, value: 1 }] // ansNum = 11
 ]
+var ansCode = [9864, 9720, 9432, 8462, 4658, 3564, 2156, 1486, 1210, 1189, 9654, 5432];
 
 function CategoryGroup() {
     this.categories = {};
@@ -113,10 +123,10 @@ function updateObjectives() {
     toastText += "";
     var elementsToChange = document.getElementsByClassName("objectives_text");
 
-    for (i=0; i<elementsToChange.length; i++) {
+    for (i = 0; i < elementsToChange.length; i++) {
         elementsToChange[i].innerHTML = toastText;
     }
-    
+
 }
 
 document.addEventListener('prechange', function (event) {
@@ -128,7 +138,7 @@ document.addEventListener('init', function (event) {
     var page = event.target;
 
     updateObjectives();
-    
+
     if (page.id == 'REWARDS') {
         var categoryNames = categoryGroup.getNames();
         updateCategorySegment(categoryNames);
@@ -173,8 +183,8 @@ document.addEventListener('init', function (event) {
             $('#card_id').val(formattedValue);
         });
 
-    } else if (page.id == 'CART') {
-        updateCart();
+    } else if (page.id == 'CORRECT_END') {
+        document.getElementById("verification_code").innerText = ansCode[ansNum];
     }
 });
 
@@ -299,7 +309,7 @@ function sendCustomEvent2() {
 // When start is pressed, check if worker ID has been entered, if not, prompt
 // If entered, bring user to voucher catalogue page
 function startPressed() {
-    var workerID = document.getElementById('workerid').value;
+    workerID = document.getElementById('workerid').value;
 
     if (workerID.length <= 0) {
         ons.notification.toast('WorkerID Required', { timeout: 1000, animation: 'fall' });
@@ -323,28 +333,31 @@ function onRedeemPressed() {
 
     var currentQuantity = document.getElementById('quantity').innerText;
 
-    for (i=0; i<objectives.length; i++) {
+    var voucherFound = false;
+    for (i = 0; i < objectives.length; i++) {
         if (objectives[i].name == currentVoucherID) {
+            voucherFound = true;
             if (objectives[i].quantity == currentQuantity) {
-                objectives.splice(i,1);
+                objectives.splice(i, 1);
                 updateObjectives();
-                if (objectives.length<=0) {
+                if (objectives.length <= 0) {
                     sendTrailCompleteAction();
                     myNavigator.pushPage('correct_end.html');
                 }
                 else {
                     myNavigator.resetToPage('rewards.html');
                 }
-                
+
             } else {
-                ons.notification.toast('Right Voucher but wrong Quantity!', {timeout: 3000, animation:'fall'});
+                ons.notification.toast('Right Voucher but wrong Quantity!', { timeout: 1000, animation: 'fall' });
                 sendUserErrorAction("Wrong voucher quantity redeemed");
             }
-           
-        } else {
-            ons.notification.toast('Wrong Voucher!', {timeout: 3000, animation:'fall'});
-            sendUserErrorAction("Wrong voucher name redeemed");
         }
+    }
+
+    if (!voucherFound) {
+        ons.notification.toast('Wrong Voucher!', { timeout: 1000, animation: 'fall' });
+        sendUserErrorAction("Wrong voucher name redeemed");
     }
 }
 
@@ -381,8 +394,8 @@ function sendUserErrorAction(description) {
 
 function sendTrailCompleteAction() {
     loggingjs.logEvent(null, 'usercompelte', {
-        eventName: 'userErrorAction',
-        info: { 'description': 'User successfully completed trail' }
+        eventName: 'userTrailSuccess',
+        info: { 'description': 'User successfully completed trail', 'ansNum': ansNum, 'workerID': workerID}
     });
 }
 
