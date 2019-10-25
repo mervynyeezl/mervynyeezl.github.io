@@ -47,7 +47,7 @@
 
     <template id="start_page.html">
         <ons-page id="STARTPAGE">
-            <div class="objectives_text" class="center"></div>
+            <div class="center objectives_text"></div>
 
             <div style="text-align: center; margin-top: 20%;">
                 <h1 style="text-align: center;">
@@ -78,7 +78,7 @@
                     </ons-toolbar-button>
                 </div>
             </ons-toolbar>
-            <div class="objectives_text" class="center"></div>
+            <div class="center objectives_text"></div>
 
             <div id="categories"></div>
             <div id="rewards"></div>
@@ -104,7 +104,7 @@
 
 
             <ons-card class="redeem">
-                <div class="objectives_text" class="center"></div>
+                <div class="center objectives_text"></div>
                 <br />
                 <div class="title" id="vouchertitle"></div>
                 <br />
@@ -152,7 +152,7 @@
 
     <template id="redeem_points.html">
         <ons-page id="REDEEM_POINTS">
-            <div class="objectives_text" class="center"></div>
+            <div class="center objectives_text"></div>
             <ons-toolbar>
                 <div class="left">
                     <ons-back-button></ons-back-button>
