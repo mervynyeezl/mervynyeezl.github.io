@@ -1,10 +1,14 @@
 const categoryGroup = new CategoryGroup();
 
+const denominations = {5: 750, 10: 1500, 15: 2250};
+
 var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
 var objectives = [];
 
 var workerID;
+
+var typeCategorisation, outletCategorisation; // categorisation flag: 0 - false, 1 - true
 
 var ansNum = 0;
 // type: 0 - Voucher, 1 - Points Redemption
@@ -46,18 +50,23 @@ function Category() {
     };
 }
 
-function Reward(name, type) {
+function Reward(name, description, type) {
     this.name = name;
+    this.description = description;
     this.type = type; // "V" - voucher, "P" - points
 }
 
 $(document).ready(function () {
+    var technique = getUrlParam('technique', "00");
+    typeCategorisation = parseInt(technique.charAt(0));
+    outletCategorisation = parseInt(technique.charAt(1));
+
     $.ajax({
         type: "GET",
         url: "data.txt",
         dataType: "text",
         success: function (data) {
-            processData(data);
+            processData(data, outletCategorisation);
         }
     });
     ansNum = getUrlParam('ansnum', 0);
@@ -65,7 +74,7 @@ $(document).ready(function () {
     objectives = allAns[ansNum];
 });
 
-function processData(allText) {
+function processData(allText, outletCategorisation) {
     var allTextLines = allText.split(/\r\n|\n/);
     var headers = allTextLines[0].split(',');
     var lines = [];
@@ -74,10 +83,25 @@ function processData(allText) {
         if (data.length == headers.length) {
             var name = data[0];
             var type = data[1];
-            var category = data[2];
-            categoryGroup.getCategory(category).addReward(new Reward(name, type));
+            var category = categoryGroup.getCategory(data[2]);
+            if (outletCategorisation == 1 || type == "P") {
+                addRewardToCategory(category, name, name, type);
+            } else {
+                for (denomination in denominations) {
+                    addRewardToCategory(category, name, "$" + denomination + " " + name, type);
+                }
+            }
         }
     }
+}
+
+function addRewardToCategory(category, name, description, type) {
+    if (type == "V") {
+        description += " Voucher";
+    } else {
+        description += " Points";
+    }
+    category.addReward(new Reward(name, description, type));
 }
 
 // e.g.
@@ -140,48 +164,13 @@ document.addEventListener('init', function (event) {
     updateObjectives();
 
     if (page.id == 'REWARDS') {
-        var categoryNames = categoryGroup.getNames();
-        updateCategorySegment(categoryNames);
-        var categoryIndex = document.getElementById('segment').getActiveButtonIndex();
-        var rewards = getRewards([categoryNames[categoryIndex]]); //getRewards(categoryNames) if no categorisation also remember to hide category div
-        updateRewards(rewards);
+        displayRewards(page);
 
     } else if (page.id == 'REDEEM_VOUCHER') {
-        page.querySelector('.title').innerText = page.data.title;
-        var multiple = 750;
-        var healthpoints = 750;
-        var quantity = 1;
-        updateHealthpointsQuantity(healthpoints, quantity);
-        page.querySelector('#add_quantity').onclick = function () {
-            healthpoints = healthpoints + multiple;
-            quantity = quantity + 1;
-            updateHealthpointsQuantity(healthpoints, quantity);
-        };
-        page.querySelector('#remove_quantity').onclick = function () {
-            healthpoints = Math.max(healthpoints - multiple, 0);
-            quantity = Math.max(quantity - 1, 1)
-            updateHealthpointsQuantity(healthpoints, quantity);
-        };
+        displayRedeemVouchers(page);
 
     } else if (page.id == 'REDEEM_POINTS') {
-        var outletSpans = page.querySelectorAll('.outlet');
-        for (outletSpan of outletSpans) {
-            outletSpan.innerText = page.data.title;
-        }
-        var multiple = 150;
-        var healthpoints = 0;
-        var quantity = 0;
-        updateHealthpointsQuantity(healthpoints, quantity);
-        page.querySelector('#points_slider').oninput = function () {
-            quantity = document.getElementById('points_slider').value;
-            healthpoints = quantity * multiple;
-            updateHealthpointsQuantity(healthpoints, quantity);
-        }
-        $('#card_id').on('input', function () {
-            var value = $('#card_id').val();
-            var formattedValue = formatCardNumber(value);
-            $('#card_id').val(formattedValue);
-        });
+        displayRedeemPoints(page);
 
     } else if (page.id == 'CORRECT_END') {
         document.getElementById("verification_code").innerText = ansCode[ansNum];
@@ -189,12 +178,22 @@ document.addEventListener('init', function (event) {
 });
 
 document.addEventListener('postchange', function (event) {
-    var categoryNames = categoryGroup.getNames();
-    var categoryIndex = document.getElementById('segment').getActiveButtonIndex();
-    var rewards = getRewards([categoryNames[categoryIndex]]); //getRewards(categoryNames) if no categorisation
-    updateRewards(rewards);
+    var page = event.target;
+    var srcElement = event.srcElement;
+    if (srcElement.id == 'segment') {
+        var categoryNames = categoryGroup.getNames();
+        var categoryIndex = document.getElementById('segment').getActiveButtonIndex();
+        var rewards = getRewards([categoryNames[categoryIndex]]);
+        updateRewards(rewards);
+
+    } else if (srcElement.id == 'denomination_segment') {
+        var denominationIndex = document.getElementById('denomination_segment').getActiveButtonIndex();
+        var denomination = Object.keys(denominations)[denominationIndex];
+        updateDenominationMultiple(denomination);
+    }
 });
 
+/*
 document.addEventListener('postpop', function (event) {
     var page = event.target.topPage;
 
@@ -219,6 +218,58 @@ document.addEventListener('postpop', function (event) {
         };
     }
 });
+*/
+
+function displayRewards(page) {
+    var categoryNames = categoryGroup.getNames();
+    var rewards;
+    if (typeCategorisation == 0) {
+        document.getElementById("categories").style.display = "none";
+        rewards = getRewards(categoryNames);
+    } else {
+        updateCategorySegment(categoryNames);
+        var categoryIndex = document.getElementById('segment').getActiveButtonIndex();
+        var rewards = getRewards([categoryNames[categoryIndex]]);
+    }
+    updateRewards(rewards);
+}
+
+function displayRedeemVouchers(page) {
+    page.querySelector('.title').innerText = page.data.title;
+    var description = page.data.description.split(" ");
+    var denomination = Object.keys(denominations)[0];
+    if (outletCategorisation == 0) {
+        var denominationSelectors = page.querySelectorAll('.denomination_selector');
+        for (ds of denominationSelectors) {
+            ds.style.display = "none";
+        }
+        denomination = parseInt(description[0].substring(1));
+    } else {
+        updateDenominationSegment();
+    }
+    updateDenominationMultiple(denomination);
+}
+
+function displayRedeemPoints(page) {
+    var outletSpans = page.querySelectorAll('.outlet');
+    for (outletSpan of outletSpans) {
+        outletSpan.innerText = page.data.title;
+    }
+    var multiple = 150;
+    var healthpoints = 0;
+    var quantity = 0;
+    updateHealthpointsQuantity(healthpoints, quantity);
+    page.querySelector('#points_slider').oninput = function () {
+        quantity = document.getElementById('points_slider').value;
+        healthpoints = quantity * multiple;
+        updateHealthpointsQuantity(healthpoints, quantity);
+    }
+    $('#card_id').on('input', function () {
+        var value = $('#card_id').val();
+        var formattedValue = formatCardNumber(value);
+        $('#card_id').val(formattedValue);
+    });
+}
 
 function getRewards(categoryNames) {
     var rewards = [];
@@ -236,6 +287,15 @@ function updateCategorySegment(categoryNames) {
     }
     ons += "</ons-segment>";
     document.getElementById("categories").innerHTML = ons;
+}
+
+function updateDenominationSegment() {
+    var ons = "<ons-segment id='denomination_segment' style='width: 100%' active-index='0'>";
+    for (denomination in denominations) {
+        ons += "<button>" + "$" + denomination + "</button>";
+    }
+    ons += "</ons-segment>";
+    document.getElementById("denominations").innerHTML = ons;
 }
 
 function updateRewards(rewards) {
@@ -263,9 +323,28 @@ function updateRow(index, colors, rewards) {
         } else {
             ons += "points";
         }
-        ons += ".html`, {data: {title: `" + reward.name + "`}})'>" + reward.name + "</div></ons-col>";
+        ons += ".html`, {data: {title: `" + reward.name + "`, description: `" + reward.description + "`}})'>" + reward.description + "</div></ons-col>";
         return ons;
     }
+}
+
+function updateDenominationMultiple(denomination) {
+    var multiple = denominations[denomination];
+    var healthpoints = multiple;
+    var quantity = 1;
+    document.getElementById('denomination').innerText = "$" + denomination;
+    document.getElementById('multiple').innerText = multiple;
+    updateHealthpointsQuantity(healthpoints, quantity);
+    document.getElementById('add_quantity').onclick = function () {
+        healthpoints = healthpoints + multiple;
+        quantity = quantity + 1;
+        updateHealthpointsQuantity(healthpoints, quantity);
+    };
+    document.getElementById('remove_quantity').onclick = function () {
+        healthpoints = Math.max(healthpoints - multiple, 0);
+        quantity = Math.max(quantity - 1, 1)
+        updateHealthpointsQuantity(healthpoints, quantity);
+    };
 }
 
 function updateHealthpointsQuantity(healthpoints, quantity) {
@@ -330,6 +409,9 @@ function startPressed() {
 function onRedeemPressed() {
 
     var currentVoucherID = document.getElementById('vouchertitle').innerText;
+
+    var currentDenomination = document.getElementById('denomination').innerText;
+    console.log(currentDenomination);
 
     var currentQuantity = document.getElementById('quantity').innerText;
 
