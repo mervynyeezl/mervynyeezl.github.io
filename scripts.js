@@ -406,12 +406,14 @@ function startPressed() {
 }
 
 // Check if the user pressed redeem on the correct voucher page
-function onRedeemPressed() {
+function onRedeemPressed(isVoucher) {
 
     var currentVoucherID = document.getElementById('vouchertitle').innerText;
 
-    var currentDenomination = document.getElementById('denomination').innerText;
-    console.log(currentDenomination);
+    if (isVoucher) {
+        var currentDenomination = document.getElementById('denomination').innerText;
+        console.log(currentDenomination);
+    }
 
     var currentQuantity = document.getElementById('quantity').innerText;
 

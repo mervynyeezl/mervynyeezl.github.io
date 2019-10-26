@@ -145,7 +145,7 @@
             </ons-card>
 
             <ons-bottom-toolbar>
-                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed(true)">Redeem
                 </ons-button>
             </ons-bottom-toolbar>
 
@@ -193,7 +193,7 @@
             </ons-card>
 
             <ons-bottom-toolbar>
-                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed(false)">Redeem
                 </ons-button>
             </ons-bottom-toolbar>
 
