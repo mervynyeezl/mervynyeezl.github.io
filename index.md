@@ -109,8 +109,11 @@
                 <div class="title" id="vouchertitle"></div>
                 <br />
                 <div class="content">
-                    <div class="redeem_content" style="font-weight: bold">$5 eVoucher</div>
-                    <div class="redeem_content">750 healthpoints</div>
+                    <div class="redeem_content" style="font-weight: bold"><span id="denomination"></span> eVoucher</div>
+                    <div class="redeem_content"><span id="multiple"></span> healthpoints</div>
+                    <br />
+                    <div class="denomination_selector">Select voucher denomination:</div>
+                    <div class="denomination_selector" id="denominations"></div>
                     <br />
                     <ons-row>
                         <ons-col class="redeem_content">Healthpoints</ons-col>
@@ -142,7 +145,7 @@
             </ons-card>
 
             <ons-bottom-toolbar>
-                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed(true)">Redeem
                 </ons-button>
             </ons-bottom-toolbar>
 
@@ -190,7 +193,7 @@
             </ons-card>
 
             <ons-bottom-toolbar>
-                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed()">Redeem
+                <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed(false)">Redeem
                 </ons-button>
             </ons-bottom-toolbar>
 
