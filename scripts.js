@@ -1,10 +1,12 @@
 const categoryGroup = new CategoryGroup();
 
-const denominations = {5: 750, 10: 1500, 15: 2250};
+const denominations = { 5: 750, 10: 1500, 15: 2250 };
 
 var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
 var objectives = [];
+
+var permutation;
 
 var workerID;
 
@@ -13,18 +15,18 @@ var typeCategorisation, outletCategorisation; // categorisation flag: 0 - false,
 var ansNum = 0;
 // type: 0 - Voucher, 1 - Points Redemption
 var allAns = [
-    [{ name: 'KOI', quantity: 1, value: 5 }], // ansNum = 0
-    [{ name: 'Sportslink', quantity: 1, value: 10 }], // ansNum = 1
-    [{ name: 'Asiamall', quantity: 1, value: 20 }], // ansNum = 2
-    [{ name: 'LiHO', quantity: 1, value: 5 }, { name: 'Qi Ji', quantity: 2, value: 5 }], // ansNum = 3
-    [{ name: 'Key Power Sports', quantity: 1, value: 10 }, { name: 'Hillion', quantity: 2, value: 10 }], // ansNum = 4
-    [{ name: 'Mr Bean', quantity: 1, value: 5 }, { name: 'Actxa', quantity: 1, value: 10 }, { name: 'Hillion', quantity: 2, value: 10 }], // ansNum = 5
-    [{ name: 'Transitlink', quantity: 5, value: 1 }], // ansNum = 6
-    [{ name: 'TapForMore', quantity: 10, value: 1 }], // ansNum = 7
-    [{ name: 'Transitlink', quantity: 20, value: 1 }], // ansNum = 8
-    [{ name: 'Transitlink', quantity: 5, value: 1 }, { name: 'TapForMore', quantity: 5, value: 1 }], // ansNum = 9
-    [{ name: 'Transitlink', quantity: 10, value: 1 }, { name: 'TapForMore', quantity: 20, value: 1 }], // ansNum = 10
-    [{ name: 'Transitlink', quantity: 20, value: 1 }, { name: 'TapForMore', quantity: 1, value: 1 }] // ansNum = 11
+    [{ name: 'KOI', quantity: 1, value: '$5' }], // ansNum = 0
+    [{ name: 'Sportslink', quantity: 1, value: '$10' }], // ansNum = 1
+    [{ name: 'Asiamall', quantity: 1, value: '$20' }], // ansNum = 2
+    [{ name: 'LiHO', quantity: 1, value: '$5' }, { name: 'Qi Ji', quantity: 2, value: '$5' }], // ansNum = 3
+    [{ name: 'Key Power Sports', quantity: 1, value: '$10' }, { name: 'Hillion', quantity: 2, value: '$10' }], // ansNum = 4
+    [{ name: 'Mr Bean', quantity: 1, value: '$5' }, { name: 'Actxa', quantity: 1, value: '$10' }, { name: 'Hillion', quantity: 2, value: '$10' }], // ansNum = 5
+    [{ name: 'Transitlink', quantity: 5, value: '$1' }], // ansNum = 6
+    [{ name: 'TapForMore', quantity: 10, value: '$1' }], // ansNum = 7
+    [{ name: 'Transitlink', quantity: 20, value: '$1' }], // ansNum = 8
+    [{ name: 'Transitlink', quantity: 5, value: '$1' }, { name: 'TapForMore', quantity: 5, value: '$1' }], // ansNum = 9
+    [{ name: 'Transitlink', quantity: 10, value: '$1' }, { name: 'TapForMore', quantity: 20, value: '$1' }], // ansNum = 10
+    [{ name: 'Transitlink', quantity: 20, value: '$1' }, { name: 'TapForMore', quantity: 1, value: '$1' }] // ansNum = 11
 ]
 var ansCode = [9864, 9720, 9432, 8462, 4658, 3564, 2156, 1486, 1210, 1189, 9654, 5432];
 
@@ -70,6 +72,19 @@ $(document).ready(function () {
         }
     });
     ansNum = getUrlParam('ansnum', 0);
+
+    permutation = getUrlParam('perm', 0)
+    // permutate perm 0: 0-6-7-11 | perm 1: 7-11-0-6
+    if (permutation == 1) {
+        var tempAns = allAns;
+
+        for (i=0; i<6; i++) {
+            tempAns[i] = tempAns[i+6];
+            tempAns[i+6] = allAns[i];
+        }
+        
+        allAns = tempAns;
+    }
 
     objectives = allAns[ansNum];
 });
@@ -117,14 +132,14 @@ function addRewardToCategory(category, name, description, type) {
 function updateObjectives() {
     var toastText = "Objectives left:";
 
-    if (ansNum <= 3) {
+    if ((ansNum < 6 && permutation == 0) || (ansNum >= 6 && permutation == 1)) {
         var textToAdd = " ";
 
         for (i = 0; i < objectives.length; i++) {
             textToAdd += objectives[i].quantity;
             textToAdd += " x ";
             textToAdd += objectives[i].name;
-            textToAdd += " $";
+            textToAdd += " ";
             textToAdd += objectives[i].value;
             textToAdd += " | ";
         }
@@ -163,7 +178,9 @@ document.addEventListener('init', function (event) {
 
     updateObjectives();
 
-    if (page.id == 'REWARDS') {
+    if (page.id == 'STARTPAGE') {
+        document.getElementById('workerid').value = getUrlParam('workerid', '');
+    } else if (page.id == 'REWARDS') {
         displayRewards(page);
 
     } else if (page.id == 'REDEEM_VOUCHER') {
@@ -408,34 +425,46 @@ function startPressed() {
 // Check if the user pressed redeem on the correct voucher page
 function onRedeemPressed(isVoucher) {
 
+    var currentDenomination = '$1';
+
     var currentVoucherID = document.getElementById('vouchertitle').innerText;
 
     if (isVoucher) {
-        var currentDenomination = document.getElementById('denomination').innerText;
+        currentDenomination = document.getElementById('denomination').innerText;
         console.log(currentDenomination);
     }
 
     var currentQuantity = document.getElementById('quantity').innerText;
 
     var voucherFound = false;
+
     for (i = 0; i < objectives.length; i++) {
         if (objectives[i].name == currentVoucherID) {
             voucherFound = true;
-            if (objectives[i].quantity == currentQuantity) {
-                objectives.splice(i, 1);
-                updateObjectives();
-                if (objectives.length <= 0) {
-                    sendTrailCompleteAction();
-                    myNavigator.pushPage('correct_end.html');
-                }
-                else {
-                    myNavigator.resetToPage('rewards.html');
+            if (objectives[i].value == currentDenomination) {
+
+                if (objectives[i].quantity == currentQuantity) {
+                    objectives.splice(i, 1);
+                    updateObjectives();
+                    if (objectives.length <= 0) {
+                        sendTrailCompleteAction();
+                        myNavigator.pushPage('correct_end.html');
+                    }
+                    else {
+                        myNavigator.resetToPage('rewards.html');
+                    }
+
+                } else {
+                    ons.notification.toast('Right Voucher but wrong Quantity!', { timeout: 1000, animation: 'fall' });
+                    sendUserErrorAction("Wrong voucher quantity redeemed");
                 }
 
-            } else {
-                ons.notification.toast('Right Voucher but wrong Quantity!', { timeout: 1000, animation: 'fall' });
-                sendUserErrorAction("Wrong voucher quantity redeemed");
             }
+            else {
+                ons.notification.toast('Right Voucher but wrong Denomination', { timeout: 1000, animation: 'fall' });
+                sendUserErrorAction("Wrong voucher denomination redeemed");
+            }
+
         }
     }
 
@@ -479,7 +508,7 @@ function sendUserErrorAction(description) {
 function sendTrailCompleteAction() {
     loggingjs.logEvent(null, 'usercompelte', {
         eventName: 'userTrailSuccess',
-        info: { 'description': 'User successfully completed trail', 'ansNum': ansNum, 'workerID': workerID}
+        info: { 'description': 'User successfully completed trail', 'ansNum': ansNum, 'workerID': workerID }
     });
 }
 
