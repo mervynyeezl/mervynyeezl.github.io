@@ -15,18 +15,18 @@ var typeCategorisation, outletCategorisation; // categorisation flag: 0 - false,
 var ansNum = 0;
 // type: 0 - Voucher, 1 - Points Redemption
 var allAns = [
-    [{ name: 'KOI', quantity: 1, value: '$5' }], // ansNum = 0
-    [{ name: 'Sportslink', quantity: 1, value: '$10' }], // ansNum = 1
-    [{ name: 'Asiamall', quantity: 1, value: '$20' }], // ansNum = 2
-    [{ name: 'LiHO', quantity: 1, value: '$5' }, { name: 'Qi Ji', quantity: 2, value: '$5' }], // ansNum = 3
-    [{ name: 'Key Power Sports', quantity: 1, value: '$10' }, { name: 'Hillion', quantity: 2, value: '$10' }], // ansNum = 4
-    [{ name: 'Mr Bean', quantity: 1, value: '$5' }, { name: 'Actxa', quantity: 1, value: '$10' }, { name: 'Hillion', quantity: 2, value: '$10' }], // ansNum = 5
-    [{ name: 'Transitlink', quantity: 5, value: '$1' }], // ansNum = 6
-    [{ name: 'TapForMore', quantity: 10, value: '$1' }], // ansNum = 7
-    [{ name: 'Transitlink', quantity: 20, value: '$1' }], // ansNum = 8
-    [{ name: 'Transitlink', quantity: 5, value: '$1' }, { name: 'TapForMore', quantity: 5, value: '$1' }], // ansNum = 9
-    [{ name: 'Transitlink', quantity: 10, value: '$1' }, { name: 'TapForMore', quantity: 20, value: '$1' }], // ansNum = 10
-    [{ name: 'Transitlink', quantity: 20, value: '$1' }, { name: 'TapForMore', quantity: 1, value: '$1' }] // ansNum = 11
+    [{ name: 'KOI', quantity: 1, value: '$5', category: 'Food' }], // ansNum = 0
+    [{ name: 'Sportslink', quantity: 1, value: '$10', category: 'Wellness' }], // ansNum = 1
+    [{ name: 'Asiamall', quantity: 1, value: '$20', category: 'Retail' }], // ansNum = 2
+    [{ name: 'LiHO', quantity: 1, value: '$5', category: 'Food' }, { name: 'Qi Ji', quantity: 2, value: '$5', category: 'Food' }], // ansNum = 3
+    [{ name: 'Key Power Sports', quantity: 1, value: '$10', category: 'Wellness' }, { name: 'Hillion', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 4
+    [{ name: 'Mr Bean', quantity: 1, value: '$5', category: 'Food' }, { name: 'Actxa', quantity: 1, value: '$10', category: 'Wellness' }, { name: 'Hillion', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 5
+    [{ name: 'Transitlink', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 6
+    [{ name: 'TapForMore', quantity: 10, value: '$1', category: 'Others' }], // ansNum = 7
+    [{ name: 'Transitlink', quantity: 20, value: '$1', category: 'Others' }], // ansNum = 8
+    [{ name: 'Transitlink', quantity: 5, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 9
+    [{ name: 'Transitlink', quantity: 10, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 20, value: '$1', category: 'Others' }], // ansNum = 10
+    [{ name: 'Transitlink', quantity: 20, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 1, value: '$1', category: 'Others' }] // ansNum = 11
 ]
 var ansCode = [9864, 9720, 9432, 8462, 4658, 3564, 2156, 1486, 1210, 1189, 9654, 5432];
 
@@ -141,6 +141,9 @@ function updateObjectives() {
             textToAdd += objectives[i].name;
             textToAdd += " ";
             textToAdd += objectives[i].value;
+            if (typeCategorisation) {
+                textToAdd += " in \'" + objectives[i].category + "\' ";
+            }
             textToAdd += " | ";
         }
 
@@ -153,7 +156,11 @@ function updateObjectives() {
             textToAdd += objectives[i].name;
             textToAdd += " ";
             textToAdd += objectives[i].quantity;
-            textToAdd += " Points | ";
+            textToAdd += " Points";
+            if (typeCategorisation) {
+                textToAdd += " in \'" + objectives[i].category + "\' ";
+            }
+            textToAdd += " | ";
         }
 
         toastText += textToAdd;
@@ -358,7 +365,7 @@ function updateDenominationMultiple(denomination) {
         updateHealthpointsQuantity(healthpoints, quantity);
     };
     document.getElementById('remove_quantity').onclick = function () {
-        healthpoints = Math.max(healthpoints - multiple, 0);
+        healthpoints = Math.max(healthpoints - multiple, multiple);
         quantity = Math.max(quantity - 1, 1)
         updateHealthpointsQuantity(healthpoints, quantity);
     };
