@@ -7,11 +7,12 @@ var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 var objectives = [];
 
 var permutation;
+var permutationText = 'permutation';
 
 var workerID;
 
 var typeCategorisation, outletCategorisation; // categorisation flag: 0 - false, 1 - true
-
+var techniqueText = 'technique';
 var ansNum = 0;
 // type: 0 - Voucher, 1 - Points Redemption
 var allAns = [
@@ -91,11 +92,11 @@ $(document).ready(function () {
     if (permutation == 1) {
         var tempAns = allAns;
 
-        for (i=0; i<6; i++) {
-            tempAns[i] = tempAns[i+6];
-            tempAns[i+6] = allAns[i];
+        for (i = 0; i < 6; i++) {
+            tempAns[i] = tempAns[i + 6];
+            tempAns[i + 6] = allAns[i];
         }
-        
+
         allAns = tempAns;
     }
 
@@ -435,10 +436,7 @@ function startPressed() {
     else {
         myNavigator.pushPage(`rewards.html`);
 
-        loggingjs.logEvent(null, 'startpressed', {
-            eventName: 'startIsPressed',
-            info: { 'workerID': workerID }
-        });
+        sendUserStartPressed();
     }
 
 }
@@ -518,18 +516,57 @@ function updateCart() {
     document.getElementById("cart_items").innerHTML = ons;
 }
 
+function updateLoggingTexts() {
+    switch (permutation) {
+        case '0':
+            permutationText = 'Voucher First';
+            break;
+        case '1':
+            permutationText = 'Points First';
+            break;
+        default:
+    }
+
+    console.log('typeCat: %d | outletCat: %d', typeCategorisation, outletCategorisation);
+
+
+    if (typeCategorisation && outletCategorisation) {
+        techniqueText = 'Type and Outlet';
+    } else if (typeCategorisation && !outletCategorisation) {
+        techniqueText = 'Type Only';
+    } else if (!typeCategorisation && outletCategorisation) {
+        techniqueText = 'Outlet Only';
+    } else if (!typeCategorisation && !outletCategorisation) {
+        techniqueText = 'No Categorisation';
+    }
+}
+
+function sendUserStartPressed() {
+    updateLoggingTexts();
+
+
+    loggingjs.logEvent(null, 'startpressed', {
+        eventName: 'startIsPressed',
+        info: { 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText }
+    });
+}
+
 // Util functions
 function sendUserErrorAction(description) {
+    updateLoggingTexts();
+
     loggingjs.logEvent(null, 'usererror', {
         eventName: 'userErrorAction',
-        info: { 'description': description }
+        info: { 'description': description, 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText }
     });
 }
 
 function sendTrailCompleteAction() {
-    loggingjs.logEvent(null, 'usercompelte', {
+    updateLoggingTexts();
+
+    loggingjs.logEvent(null, 'usercomplete', {
         eventName: 'userTrailSuccess',
-        info: { 'description': 'User successfully completed trail', 'ansNum': ansNum, 'workerID': workerID }
+        info: { 'description': 'User successfully completed trail', 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText }
     });
 }
 
