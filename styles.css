@@ -1,6 +1,7 @@
 .voucher_thumbnail {
+    height: 100px;
     width: 90%;
-    padding-top: 100%;
+    padding-top: 50%;
     position: relative;
     display: table;
     text-align: center;

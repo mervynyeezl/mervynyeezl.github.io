@@ -42,6 +42,11 @@ function CategoryGroup() {
     this.getNames = function () {
         return Object.keys(this.categories).sort();
     };
+    this.shuffleCategories = function () {
+        for (name in this.categories) {
+            this.categories[name].shuffleRewards();
+        }
+    }
 }
 
 function Category() {
@@ -50,6 +55,14 @@ function Category() {
     this.addReward = function (reward) {
         this.rewards.push(reward);
     };
+    this.shuffleRewards = function () {
+        for (var i = this.rewards.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = this.rewards[i];
+            this.rewards[i] = this.rewards[j];
+            this.rewards[j] = temp;
+        }
+    }
 }
 
 function Reward(name, description, type) {
@@ -108,6 +121,7 @@ function processData(allText, outletCategorisation) {
             }
         }
     }
+    categoryGroup.shuffleCategories();
 }
 
 function addRewardToCategory(category, name, description, type) {
