@@ -486,7 +486,7 @@ function onRedeemPressed(isVoucher) {
                     objectives.splice(i, 1);
                     updateObjectives();
                     if (objectives.length <= 0) {
-                        sendTrailCompleteAction();
+                        sendTrialCompleteAction();
                         myNavigator.pushPage('correct_end.html');
                     }
                     else {
@@ -558,12 +558,12 @@ function sendUserErrorAction(description) {
     });
 }
 
-function sendTrailCompleteAction() {
+function sendTrialCompleteAction() {
     updateLoggingTexts();
 
     loggingjs.logEvent(null, 'usercomplete', {
-        eventName: 'userTrailSuccess',
-        info: { 'description': 'User successfully completed trail', 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText }
+        eventName: 'userTrialSuccess',
+        info: { 'description': 'User successfully completed trial', 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText }
     });
 }
 

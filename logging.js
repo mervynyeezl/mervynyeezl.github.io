@@ -20,8 +20,8 @@ var LOG_VERSION = '0.1';           // Labels every entry with version: "0.1".
 
 // These event types are intercepted for logging before jQuery handlers.
 var EVENT_TYPES_TO_LOG = {
-  mousedown: true,
-  keydown: true
+  // mousedown: true,
+  // keydown: true
 };
 
 // These event properties are copied to the log if present.
