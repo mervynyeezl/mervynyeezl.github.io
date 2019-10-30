@@ -27,9 +27,10 @@ var allAns = [
     [{ name: 'Transitlink', quantity: 20, value: '$1', category: 'Others' }], // ansNum = 8
     [{ name: 'Transitlink', quantity: 5, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 9
     [{ name: 'Transitlink', quantity: 10, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 20, value: '$1', category: 'Others' }], // ansNum = 10
-    [{ name: 'Transitlink', quantity: 20, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 1, value: '$1', category: 'Others' }] // ansNum = 11
+    [{ name: 'Transitlink', quantity: 20, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 1, value: '$1', category: 'Others' }], // ansNum = 11
+    [{ name: 'Lazada', quantity: 1, value: '$5', category: 'Retail' }] // ansNum = 12 for test
 ]
-var ansCode = [9864, 9720, 9432, 8462, 4658, 3564, 2156, 1486, 1210, 1189, 9654, 5432];
+var ansCode = [9864, 9720, 9432, 8462, 4658, 3564, 2156, 1486, 1210, 1189, 9654, 5432, 1234];
 
 function CategoryGroup() {
     this.categories = {};
@@ -147,7 +148,7 @@ function addRewardToCategory(category, name, description, type) {
 function updateObjectives() {
     var toastText = "Objectives left:";
 
-    if ((ansNum < 6 && permutation == 0) || (ansNum >= 6 && permutation == 1)) {
+    if ((ansNum < 6 && permutation == 0) || (ansNum >= 6 && permutation == 1) || (ansNum == 12)) {
         var textToAdd = " ";
 
         for (i = 0; i < objectives.length; i++) {
