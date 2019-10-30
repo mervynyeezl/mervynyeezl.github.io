@@ -51,9 +51,9 @@
 
         <div style="text-align: center; margin-top: 20%;">
             <h1 style="text-align: center;">
-                Survey ID
+                Press Start to Begin Trial
             </h1>
-            <p>
+            <p hidden>
                 <ons-input id="workerid" modifier="underbar" placeholder="Enter WorkerID" float></ons-input>
             </p>
         </div>
@@ -233,7 +233,7 @@
                 You've successfully completed the task, thank you!
                 Enter this password in the survey:
             </h2>
-            <h1 class= "veri_code" id="verification_code">
+            <h1 class="veri_code" id="verification_code">
                 HY63F8
             </h1>
         </div>
