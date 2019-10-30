@@ -274,8 +274,24 @@ function displayRewards(page) {
     updateRewards(rewards);
 }
 
+function checkIfTitleIsInObjectives(title) {
+    var isTargetStillInObjectives = false;
+    for (i = 0; i < objectives.length; i++) {
+        if (objectives[i].name == title)
+            isTargetStillInObjectives = true;
+    }
+
+    if (!isTargetStillInObjectives) {
+        sendUserErrorAction("User went into voucher/point that is not in objectives");
+    }
+}
+
 function displayRedeemVouchers(page) {
-    page.querySelector('.title').innerText = page.data.title;
+    var title = page.data.title;
+    page.querySelector('.title').innerText = title;
+    checkIfTitleIsInObjectives(title);
+
+
     var description = page.data.description.split(" ");
     var denomination = Object.keys(denominations)[0];
     if (outletCategorisation == 0) {
@@ -295,6 +311,9 @@ function displayRedeemPoints(page) {
     for (outletSpan of outletSpans) {
         outletSpan.innerText = page.data.title;
     }
+    
+    checkIfTitleIsInObjectives(page.data.title);
+
     var multiple = 150;
     var healthpoints = 0;
     var quantity = 0;
@@ -492,29 +511,6 @@ function onRedeemPressed(isVoucher) {
         ons.notification.toast('Wrong Voucher!', { timeout: 1000, animation: 'fall' });
         sendUserErrorAction("Wrong voucher name redeemed");
     }
-}
-
-function goToVoucher(targetTitle) {
-    myNavigator.popPage({ data: { title: targetTitle } });
-}
-
-function updateCart() {
-    var ons = "";
-    var index = 0;
-    document.getElementById("cart_back_button").onClick = function (event) {
-        // Reset the whole stack instead of popping 1 page
-        document.querySelector('ons-navigator').resetToPage('rewards.html');
-    };
-
-    while (index < cartItems.length) {
-        row = "<ons-list-item>";
-        row += "X " + cartItems[index].quantity + " " + cartItems[index].id;
-        row += "<ons-button padding: 8px modifier='quiet' ";
-        row += "onclick=\"goToVoucher(" + "'" + cartItems[index++].id + "'" + ")\" >edit</ons-button>";
-        row += "</ons-list-item>";
-        ons += row;
-    }
-    document.getElementById("cart_items").innerHTML = ons;
 }
 
 function updateLoggingTexts() {
