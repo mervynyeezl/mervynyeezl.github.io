@@ -6,7 +6,7 @@ var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
 var objectives = [];
 
-var permutation;
+var permutation = 0;
 var permutationText = 'permutation';
 
 var workerID;
@@ -18,9 +18,9 @@ var ansNum = 0;
 var allAns = [
     [{ name: 'KOI', quantity: 1, value: '$5', category: 'Food' }], // ansNum = 0
     [{ name: 'Sportslink', quantity: 1, value: '$10', category: 'Wellness' }], // ansNum = 1
-    [{ name: 'Asiamall', quantity: 1, value: '$20', category: 'Retail' }], // ansNum = 2
+    [{ name: 'AsiaMalls', quantity: 1, value: '$15', category: 'Retail' }], // ansNum = 2
     [{ name: 'LiHO', quantity: 1, value: '$5', category: 'Food' }, { name: 'Qi Ji', quantity: 2, value: '$5', category: 'Food' }], // ansNum = 3
-    [{ name: 'Key Power Sports', quantity: 1, value: '$10', category: 'Wellness' }, { name: 'Hillion', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 4
+    [{ name: 'Key Power Sports', quantity: 1, value: '$10', category: 'Retail' }, { name: 'Hillion', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 4
     [{ name: 'Mr Bean', quantity: 1, value: '$5', category: 'Food' }, { name: 'Actxa', quantity: 1, value: '$10', category: 'Wellness' }, { name: 'Hillion', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 5
     [{ name: 'Transitlink', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 6
     [{ name: 'TapForMore', quantity: 10, value: '$1', category: 'Others' }], // ansNum = 7
