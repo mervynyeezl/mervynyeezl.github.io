@@ -1,11 +1,11 @@
 .voucher_thumbnail {
-    width: 90%;
-    height: 90%;
+    width: 150px;
+    height: 130px;
     position: relative;
     display: table;
     margin: auto;
-    margin-top: 4px;
-    margin-bottom: 4px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     border-radius: 10px;
 }
 .user_cover {
