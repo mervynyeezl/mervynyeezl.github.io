@@ -2,8 +2,6 @@ const categoryGroup = new CategoryGroup();
 
 var denominations = { 5: 750, 10: 1500, 15: 2250 };
 
-var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
-
 var objectives = [];
 
 var permutation = 0;
@@ -16,19 +14,19 @@ var techniqueText = 'technique';
 var ansNum = 0;
 // type: 0 - Voucher, 1 - Points Redemption
 var allAns = [
-    [{ name: 'KOI', quantity: 1, value: '$5', category: 'Food' }], // ansNum = 0
-    [{ name: 'Sportslink', quantity: 1, value: '$10', category: 'Wellness' }], // ansNum = 1
-    [{ name: 'AsiaMalls', quantity: 1, value: '$15', category: 'Retail' }], // ansNum = 2
-    [{ name: 'LiHO', quantity: 1, value: '$5', category: 'Food' }, { name: 'Qi Ji', quantity: 2, value: '$5', category: 'Food' }], // ansNum = 3
-    [{ name: 'Key Power Sports', quantity: 1, value: '$10', category: 'Retail' }, { name: 'Hillion', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 4
-    [{ name: 'Mr Bean', quantity: 1, value: '$5', category: 'Food' }, { name: 'Actxa', quantity: 1, value: '$10', category: 'Wellness' }, { name: 'Hillion', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 5
-    [{ name: 'Transitlink', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 6
-    [{ name: 'TapForMore', quantity: 10, value: '$1', category: 'Others' }], // ansNum = 7
-    [{ name: 'Transitlink', quantity: 20, value: '$1', category: 'Others' }], // ansNum = 8
-    [{ name: 'Transitlink', quantity: 5, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 9
-    [{ name: 'Transitlink', quantity: 10, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 20, value: '$1', category: 'Others' }], // ansNum = 10
-    [{ name: 'Transitlink', quantity: 20, value: '$1', category: 'Others' }, { name: 'TapForMore', quantity: 1, value: '$1', category: 'Others' }], // ansNum = 11
-    [{ name: 'Lazada', quantity: 1, value: '$5', category: 'Retail' }] // ansNum = 12 for test
+    [{ name: 'Melts', quantity: 1, value: '$5', category: 'Food' }], // ansNum = 0
+    [{ name: 'Faraway Travel', quantity: 1, value: '$10', category: 'Travel' }], // ansNum = 1
+    [{ name: 'Asia Mart', quantity: 1, value: '$15', category: 'Retail' }], // ansNum = 2
+    [{ name: 'Salad Bar', quantity: 1, value: '$5', category: 'Food' }, { name: 'Boba Kingdom', quantity: 2, value: '$5', category: 'Food' }], // ansNum = 3
+    [{ name: 'Super Sports', quantity: 1, value: '$10', category: 'Retail' }, { name: 'Lionhill', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 4
+    [{ name: 'Heart Cake', quantity: 1, value: '$5', category: 'Food' }, { name: 'Bolt', quantity: 1, value: '$10', category: 'Wellness' }, { name: 'Lionhill', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 5
+    [{ name: 'Fast Train', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 6
+    [{ name: 'Tap For More', quantity: 10, value: '$1', category: 'Others' }], // ansNum = 7
+    [{ name: 'Action', quantity: 20, value: '$1', category: 'Wellness' }], // ansNum = 8
+    [{ name: 'Pizza Restaurant', quantity: 5, value: '$1', category: 'Food' }, { name: 'Tap For More', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 9
+    [{ name: 'Fast Train', quantity: 10, value: '$1', category: 'Others' }, { name: 'Zalada', quantity: 20, value: '$1', category: 'Retail' }], // ansNum = 10
+    [{ name: 'Fast Train', quantity: 20, value: '$1', category: 'Others' }, { name: 'Tap For More', quantity: 1, value: '$1', category: 'Others' }], // ansNum = 11
+    [{ name: 'Wave Mall', quantity: 1, value: '$5', category: 'Retail' }] // ansNum = 12 for test
 ]
 var ansCode = [9864, 9720, 9432, 8462, 4658, 3564, 2156, 1486, 1210, 1189, 9654, 5432, 1234];
 
@@ -42,7 +40,7 @@ function CategoryGroup() {
         return this.categories[name];
     };
     this.getNames = function () {
-        return Object.keys(this.categories).sort();
+        return Object.keys(this.categories);
     };
     this.shuffleCategories = function () {
         for (name in this.categories) {
@@ -151,17 +149,19 @@ function addRewardToCategory(category, name, description, type, imageUrl) {
 // TapForMore 5000 Points
 // Transitlink 3000 Points
 function updateObjectives() {
-    var toastText = "Objectives left:";
+    var toastText = "<b>Objectives left:</b><br />";
 
     if ((ansNum < 6 && permutation == 0) || (ansNum >= 6 && permutation == 1) || (ansNum == 12)) {
         var textToAdd = " ";
 
         for (i = 0; i < objectives.length; i++) {
+            textToAdd += "Claim <b>";
             textToAdd += objectives[i].quantity;
             textToAdd += " x ";
-            textToAdd += objectives[i].name;
-            textToAdd += " ";
             textToAdd += objectives[i].value;
+            textToAdd += " voucher(s)</b> under <b>";
+            textToAdd += objectives[i].name;
+            textToAdd += "</b>";
             if (typeCategorisation) {
                 textToAdd += " in \'" + objectives[i].category + "\' ";
             }
@@ -174,10 +174,11 @@ function updateObjectives() {
         var textToAdd = " ";
 
         for (i = 0; i < objectives.length; i++) {
-            textToAdd += objectives[i].name;
-            textToAdd += " ";
+            textToAdd += "Claim <b>";
             textToAdd += objectives[i].quantity;
-            textToAdd += " Points";
+            textToAdd += " points</b> under <b>";
+            textToAdd += objectives[i].name;
+            textToAdd += "</b>";
             if (typeCategorisation) {
                 textToAdd += " in \'" + objectives[i].category + "\' ";
             }
@@ -345,7 +346,7 @@ function getRewards(categoryNames) {
 }
 
 function updateCategorySegment(categoryNames) {
-    var ons = "<ons-segment id='segment' style='width: 100%' active-index='0'>";
+    var ons = "<ons-segment id='segment' style='width: 100%; margin: 5px auto;' active-index='0'>";
     for (name of categoryNames) {
         ons += "<button>" + name + "</button>";
     }
@@ -367,21 +368,20 @@ function updateRewards(rewards) {
     var index = 0;
     while (index < rewards.length) {
         row = "<ons-row class='user_cover'>";
-        row += updateRow(index++, colors, rewards);
-        row += updateRow(index++, colors, rewards);
+        row += updateRow(index++, rewards);
+        row += updateRow(index++, rewards);
         row += "</ons-row>";
         ons += row;
     }
     document.getElementById("rewards").innerHTML = ons;
 }
 
-function updateRow(index, colors, rewards) {
-    var color = colors[index % colors.length];
+function updateRow(index, rewards) {
     if (index >= rewards.length) {
         return "<ons-col><div class='voucher_thumbnail'></div></ons-col>";
     } else {
         var reward = rewards[index];
-        var ons = "<ons-col><div class='voucher_thumbnail' style='background-color: white; border-color:  #f2f2f2' onclick='myNavigator.pushPage(`redeem_";
+        var ons = "<ons-col><div class='voucher_thumbnail' style='border-color: #e6e6e6; border-radius: 10px; border-style: solid;' onclick='myNavigator.pushPage(`redeem_";
         if (reward.type == "V") {
             ons += "voucher";
         } else {
