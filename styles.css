@@ -1,6 +1,6 @@
 .voucher_thumbnail {
-    width: 150px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     position: relative;
     display: table;
     margin: auto;
@@ -16,11 +16,13 @@
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 68%;
-    height: 68%;
+    width: 140px;
+    height: 96px;
 }
 div.description {
-    height: 30%;
+    width: 140px;
+    height: 42px;
+    line-height: 20px;
     text-align: center;
     padding: 5px 5px;
     font-size: small;
