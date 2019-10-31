@@ -1,7 +1,6 @@
 .voucher_thumbnail {
     width: 90%;
     height: 90%;
-    position: relative;
     display: table;
     margin: auto;
     margin-top: 4px;
@@ -21,9 +20,8 @@
 }
 div.description {
     height: 30%;
-    position: relative;
     text-align: center;
-    padding: 5px 5px;
+    padding: 1px 1px;
     font-size: small;
     font-weight: bold;
     background-color: lightgrey;
