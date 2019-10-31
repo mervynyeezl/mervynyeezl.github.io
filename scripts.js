@@ -165,7 +165,7 @@ function updateObjectives() {
             if (typeCategorisation) {
                 textToAdd += " in \'" + objectives[i].category + "\' ";
             }
-            textToAdd += " | ";
+            textToAdd += "<br />";
         }
 
         toastText += textToAdd;
@@ -181,7 +181,7 @@ function updateObjectives() {
             if (typeCategorisation) {
                 textToAdd += " in \'" + objectives[i].category + "\' ";
             }
-            textToAdd += " | ";
+            textToAdd += "<br />";
         }
 
         toastText += textToAdd;
