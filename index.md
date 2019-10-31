@@ -47,7 +47,7 @@
 
 <template id="start_page.html">
     <ons-page id="STARTPAGE">
-        <div class="center objectives_text"></div>
+        <div class="center objectives_text" style="background-color: rgba(255, 255, 255, 0.85); margin-top: 20%"></div>
 
         <div style="text-align: center; margin-top: 20%;">
             <h1 style="text-align: center;">
@@ -58,7 +58,7 @@
             </p>
         </div>
         <p style="margin-top: 30px;">
-            <ons-button modifier="large" onclick="startPressed()">Start</ons-button>
+            <ons-button modifier="large" onclick="startPressed()" style="margin-top: 20%; background-color: #00D8CF; border-radius: 20px;">Start</ons-button>
         </p>
     </ons-page>
 
@@ -78,10 +78,9 @@
                 </ons-toolbar-button>
             </div>
         </ons-toolbar>
-        <div class="center objectives_text"></div>
+        <div class="center objectives_text" style="background-color: #FFD8D8;"></div>
 
         <div id="categories"></div>
-        <br />
         <div id="rewards"></div>
 
     </ons-page>
@@ -89,7 +88,7 @@
 
 <template id="redeem_voucher.html">
     <ons-page id="REDEEM_VOUCHER">
-        <div class="center objectives_text"></div>
+        <div class="center objectives_text" style="background-color: #FFD8D8;"></div>
         <ons-toolbar>
             <div class="left">
                 <ons-back-button></ons-back-button>
@@ -126,12 +125,12 @@
                     <ons-col class="redeem_content">
                         <ons-row>
                             <ons-col>
-                                <ons-icon icon="ion-ios-remove-circle-outline" size="lg" id="remove_quantity">
+                                <ons-icon icon="ion-ios-remove-circle-outline" size="25px" id="remove_quantity" style="color: #00D8CF">
                                 </ons-icon>
                             </ons-col>
                             <ons-col id="quantity"></ons-col>
                             <ons-col>
-                                <ons-icon icon="ion-ios-add-circle-outline" size="lg" id="add_quantity"></ons-icon>
+                                <ons-icon icon="ion-ios-add-circle-outline" size="25px" id="add_quantity" style="color: #00D8CF"></ons-icon>
                             </ons-col>
                         </ons-row>
                     </ons-col>
@@ -146,7 +145,7 @@
         </ons-card>
 
         <ons-bottom-toolbar>
-            <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed(true)">Redeem
+            <ons-button class="redeem_button" modifier="large" onclick="onRedeemPressed(true)"  style="background-color: #00D8CF; border-radius: 20px;">Redeem
             </ons-button>
         </ons-bottom-toolbar>
 
@@ -156,7 +155,7 @@
 
 <template id="redeem_points.html">
     <ons-page id="REDEEM_POINTS">
-        <div class="center objectives_text"></div>
+        <div class="center objectives_text" style="background-color: #FFD8D8;"></div>
         <ons-toolbar>
             <div class="left">
                 <ons-back-button></ons-back-button>
@@ -174,13 +173,13 @@
             <div class="title" id="vouchertitle"><span class="outlet"></span></div>
             <br />
             <div class="content">
-                <div class="redeem_content" style="font-weight: bold">150 Healthpoint = 1 <span
+                <div class="redeem_content" style="font-weight: bold;">150 Healthpoint = 1 <span
                         class="outlet"></span> Point</div>
                 <div class="redeem_content">subjected to Terms and Conditions</div>
                 <br />
                 <p>
                     Slide to select no. of Healthpoints for redemption<br />
-                    <span id="healthpoints"></span> Healthpoint(s) | <span id="quantity"></span> <span
+                    <span id="healthpoints" style="color: #0476FB;"></span> Healthpoint(s) | <span id="quantity" style="color: #0476FB;"></span> <span
                         class="outlet"></span> Point(s)<br />
                     <ons-range id="points_slider" style="width: 100%" min="0" max="100" step="1" value="0">
                     </ons-range>
@@ -194,7 +193,7 @@
         </ons-card>
 
         <ons-bottom-toolbar>
-            <ons-button class="redeem_button" modifier="large--quiet" onclick="onRedeemPressed(false)">Redeem
+            <ons-button class="redeem_button" modifier="large" onclick="onRedeemPressed(false)" style="background-color: #00D8CF; border-radius: 20px;">Redeem
             </ons-button>
         </ons-bottom-toolbar>
 
