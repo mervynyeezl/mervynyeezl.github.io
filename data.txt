@@ -1,23 +1,22 @@
 Name,Type,Category,Image
-Boba Kingdom,V,Food,boba_kingdom.png
-TapForMore,P,Others,placeholder.png
-Transitlink,P,Others,placeholder.png
-AIBI,V,Wellness,placeholder.png
-Heart Cake,V,Food,heart_cake.png
-BOUNCE,V,Wellness,placeholder.png
-FairPrice,V,Others,placeholder.png
-Hillion,V,Retail,placeholder.png
-Kallang Wave Mall,V,Retail,placeholder.png
-Melts,V,Food,melts.png
-Key Power Sports,V,Retail,placeholder.png
-KLOOK,V,Travel,placeholder.png
-Lazada,V,Retail,placeholder.png
-Pizza Restaurant,V,Food,pizza_restaurant.png
-Sembawang Shopping Centre,V,Retail,placeholder.png
-Sportslink,V,Wellness,placeholder.png
-Actxa,V,Wellness,placeholder.png
-Salad Bar,V,Food,salad_bar.png
-AsiaMalls,V,Retail,placeholder.png
-FairPrice Online App/Web,V,Others,placeholder.png
-OSIM,V,Retail,placeholder.png
-Sushi Kai,V,Food,sushi_kai.png
+Boba Kingdom,V,Food,food/boba_kingdom.png
+Heart Cake,V,Food,food/heart_cake.png
+Melts,V,Food,food/melts.png
+Pizza Restaurant,P,Food,food/pizza_restaurant.png
+Salad Bar,V,Food,food/salad_bar.png
+Sushi Kai,V,Food,food/sushi_kai.png
+Asia Mart,V,Retail,retail/asia_mart.png
+Lionhill,V,Retail,retail/lionhill.png
+OSWEE,V,Retail,retail/OSWEE.png
+Super Sports,V,Retail,retail/super_sports.png
+Wave Mall,V,Retail,retail/wave_mall.png
+Zalada,P,Retail,retail/zalada.png
+Faraway Travel,V,Travel,travel/faraway_travel.png
+Action,P,Wellness,wellness/action.png
+Bolt,V,Wellness,wellness/bolt.png
+Bounce,V,Wellness,wellness/bounce.png
+Pro Sports,V,Wellness,wellness/pro_sports.png
+Fast Train,P,Others,others/fast_train.png
+Nice Cart,V,Others,others/nice_cart.png
+Simpleton Sports Centre,V,Others,others/simpleton_sports_centre.png
+Tap For More,P,Others,others/tap_for_more.png
