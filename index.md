@@ -81,6 +81,7 @@
         <div class="center objectives_text"></div>
 
         <div id="categories"></div>
+        <br />
         <div id="rewards"></div>
 
     </ons-page>
@@ -88,7 +89,7 @@
 
 <template id="redeem_voucher.html">
     <ons-page id="REDEEM_VOUCHER">
-
+        <div class="center objectives_text"></div>
         <ons-toolbar>
             <div class="left">
                 <ons-back-button></ons-back-button>
@@ -104,7 +105,7 @@
 
 
         <ons-card class="redeem">
-            <div class="center objectives_text"></div>
+
             <br />
             <div class="title" id="vouchertitle"></div>
             <br />

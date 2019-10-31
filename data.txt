@@ -1,24 +1,23 @@
-Name,Type,Category
-TapForMore,P,Others
-Transitlink,P,Others
-AIBI,V,Wellness
-BOUNCE,V,Wellness
-FairPrice,V,Others
-Hillion,V,Retail
-Kallang Wave Mall,V,Retail
-Key Power Sports,V,Retail
-KLOOK,V,Travel
-KOI,V,Food
-Lazada,V,Retail
-LiHO,V,Food
-Mr Bean,V,Food
-Polar Puffs & Cakes,V,Food
-Qi Ji,V,Food
-QQ Rice,V,Food
-Sembawang Shopping Centre,V,Food
-Simply Wrapps,V,Food
-Sportslink,V,Wellness
-Actxa,V,Wellness
-AsiaMalls,V,Retail
-FairPrice Online App/Web,V,Others
-OSIM,V,Retail
+Name,Type,Category,Image
+Boba Kingdom,V,Food,boba_kingdom.png
+TapForMore,P,Others,placeholder.png
+Transitlink,P,Others,placeholder.png
+AIBI,V,Wellness,placeholder.png
+Heart Cake,V,Food,heart_cake.png
+BOUNCE,V,Wellness,placeholder.png
+FairPrice,V,Others,placeholder.png
+Hillion,V,Retail,placeholder.png
+Kallang Wave Mall,V,Retail,placeholder.png
+Melts,V,Food,melts.png
+Key Power Sports,V,Retail,placeholder.png
+KLOOK,V,Travel,placeholder.png
+Lazada,V,Retail,placeholder.png
+Pizza Restaurant,V,Food,pizza_restaurant.png
+Sembawang Shopping Centre,V,Retail,placeholder.png
+Sportslink,V,Wellness,placeholder.png
+Actxa,V,Wellness,placeholder.png
+Salad Bar,V,Food,salad_bar.png
+AsiaMalls,V,Retail,placeholder.png
+FairPrice Online App/Web,V,Others,placeholder.png
+OSIM,V,Retail,placeholder.png
+Sushi Kai,V,Food,sushi_kai.png

@@ -70,10 +70,11 @@ function Category() {
     }
 }
 
-function Reward(name, description, type) {
+function Reward(name, description, type, imageUrl) {
     this.name = name;
     this.description = description;
     this.type = type; // "V" - voucher, "P" - points
+    this.imageUrl = imageUrl;
 }
 
 $(document).ready(function () {
@@ -117,11 +118,12 @@ function processData(allText, outletCategorisation) {
             var name = data[0];
             var type = data[1];
             var category = categoryGroup.getCategory(data[2]);
+            var imageUrl = data[3];
             if (outletCategorisation == 1 || type == "P") {
-                addRewardToCategory(category, name, name, type);
+                addRewardToCategory(category, name, name, type, imageUrl);
             } else {
                 for (denomination in denominations) {
-                    addRewardToCategory(category, name, "$" + denomination + " " + name, type);
+                    addRewardToCategory(category, name, "$" + denomination + " " + name, type, imageUrl);
                 }
             }
         }
@@ -129,13 +131,13 @@ function processData(allText, outletCategorisation) {
     categoryGroup.shuffleCategories();
 }
 
-function addRewardToCategory(category, name, description, type) {
+function addRewardToCategory(category, name, description, type, imageUrl) {
     if (type == "V") {
         description += " Voucher";
     } else {
         description += " Points";
     }
-    category.addReward(new Reward(name, description, type));
+    category.addReward(new Reward(name, description, type, imageUrl));
 }
 
 // e.g.
@@ -379,13 +381,15 @@ function updateRow(index, colors, rewards) {
         return "<ons-col><div class='voucher_thumbnail'></div></ons-col>";
     } else {
         var reward = rewards[index];
-        var ons = "<ons-col><div class='voucher_thumbnail' style='background-color: " + color + "' onclick='myNavigator.pushPage(`redeem_";
+        var ons = "<ons-col><div class='voucher_thumbnail' style='background-color: white; border-color:  #f2f2f2' onclick='myNavigator.pushPage(`redeem_";
         if (reward.type == "V") {
             ons += "voucher";
         } else {
             ons += "points";
         }
-        ons += ".html`, {data: {title: `" + reward.name + "`, description: `" + reward.description + "`}})'>" + reward.description + "</div></ons-col>";
+        ons += ".html`, {data: {title: `" + reward.name + "`, description: `" + reward.description + "`}})'>";
+        ons += "<img src='images/" + reward.imageUrl + "' class='image'>";
+        ons += "<div class='description'>" + reward.description + "</div></div></ons-col>";
         return ons;
     }
 }
