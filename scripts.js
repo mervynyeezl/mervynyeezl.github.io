@@ -1,6 +1,6 @@
 const categoryGroup = new CategoryGroup();
 
-const denominations = { 5: 750, 10: 1500, 15: 2250 };
+var denominations = { 5: 750, 10: 1500, 15: 2250 };
 
 var colors = ["#dd6218", "#00a899", "#e3aa05", "#94b052"];
 
@@ -58,11 +58,14 @@ function Category() {
         this.rewards.push(reward);
     };
     this.shuffleRewards = function () {
-        for (var i = this.rewards.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = this.rewards[i];
-            this.rewards[i] = this.rewards[j];
-            this.rewards[j] = temp;
+        var lo = 0;
+        var hi = this.rewards.length - 1;
+        while (lo < hi) {
+            var temp = this.rewards[lo];
+            this.rewards[lo] = this.rewards[hi];
+            this.rewards[hi] = temp;
+            lo += 2;
+            hi -= 2;
         }
     }
 }

@@ -25,9 +25,13 @@
 }
 
 .objectives_text {
-    margin: 20px auto; 
+    margin: 20px auto;
     text-align: center;
     width: 320px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
 .veri_code {
@@ -35,4 +39,9 @@
     -moz-user-select: all;
     -ms-user-select: all;
     user-select: all;
+}
+
+.objectives_text {
+
+
 }
