@@ -22,7 +22,7 @@
 div.description {
     width: 140px;
     height: 42px;
-    line-height: 20px;
+    line-height: 19px;
     text-align: center;
     padding: 5px 5px;
     font-size: small;
@@ -30,6 +30,8 @@ div.description {
     background-color: lightgrey;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .title {
