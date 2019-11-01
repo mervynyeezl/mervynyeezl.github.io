@@ -104,6 +104,8 @@ $(document).ready(function () {
     }
 
     objectives = allAns[ansNum];
+    
+    updateObjectives();
 });
 
 function processData(allText, outletCategorisation) {
