@@ -139,7 +139,6 @@
                 <ons-list>
                     <ons-list-header>Reward Information</ons-list-header>
                     <ons-list-item>Please brighten your screen display before using the eVoucher</ons-list-item>
-                    <ons-list-item>Accepted at all outlets except Causeway Point</ons-list-item>
                 </ons-list>
             </div>
         </ons-card>
