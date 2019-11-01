@@ -88,7 +88,7 @@
 
 <template id="redeem_voucher.html">
     <ons-page id="REDEEM_VOUCHER">
-        <div class="center objectives_text" style="background-color: #FFD8D8;"></div>
+        
         <ons-toolbar>
             <div class="left">
                 <ons-back-button></ons-back-button>
@@ -104,7 +104,7 @@
 
 
         <ons-card class="redeem">
-
+            <div class="center objectives_text" style="background-color: #FFD8D8;"></div>
             <br />
             <div class="title" id="vouchertitle"></div>
             <br />
@@ -155,7 +155,7 @@
 
 <template id="redeem_points.html">
     <ons-page id="REDEEM_POINTS">
-        <div class="center objectives_text" style="background-color: #FFD8D8;"></div>
+        
         <ons-toolbar>
             <div class="left">
                 <ons-back-button></ons-back-button>
@@ -169,6 +169,7 @@
         </ons-toolbar>
 
         <ons-card class="redeem">
+            <div class="center objectives_text" style="background-color: #FFD8D8;"></div>
             <br />
             <div class="title" id="vouchertitle"><span class="outlet"></span></div>
             <br />
