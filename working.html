@@ -181,12 +181,12 @@
                     Slide to select no. of Healthpoints for redemption<br />
                     <span id="healthpoints" style="color: #0476FB;"></span> Healthpoint(s) | <span id="quantity" style="color: #0476FB;"></span> <span
                         class="outlet"></span> Point(s)<br />
-                    <ons-range id="points_slider" style="width: 100%" min="0" max="100" step="1" value="0">
+                    <ons-range id="points_slider" style="width: 100%" min="0" max="50" step="1" value="0">
                     </ons-range>
                 </p>
                 <br />
                 <p>
-                    Enter CARD ID<br />
+                    Enter CARD ID (optional)<br />
                     <ons-input id="card_id" class="redeem_content" name="card_id" modifier="underbar"></ons-input>
                 </p>
             </div>
