@@ -33,7 +33,7 @@
 <template id="start_page.html">
     <ons-page id="STARTPAGE">
         <div class="start_title">Healthy365</div>
-        <img src="images/beepline.png" style="width: 100%; background-color: transparent;" class="beepline" />
+        <img src="images/beepline.png" style="width: 100%; background-color: transparent;" />
         <div class="center objectives_text" style="background-color: rgba(255, 255, 255, 0.85); margin-top: 10%"></div>
         <div style="text-align: center; margin-top: 20%;">
             <h1 style="text-align: center; color: white;">
@@ -74,7 +74,7 @@
 
 <template id="redeem_voucher.html">
     <ons-page id="REDEEM_VOUCHER">
-
+        
         <ons-toolbar>
             <div class="left">
                 <ons-back-button></ons-back-button>
@@ -133,7 +133,7 @@
 
 <template id="redeem_points.html">
     <ons-page id="REDEEM_POINTS">
-
+        
         <ons-toolbar>
             <div class="left">
                 <ons-back-button></ons-back-button>
@@ -197,14 +197,17 @@
         <div style="text-align: center; margin-top: 20%; margin-left: 8px; margin-right: 8px">
             <h2 style="text-align: center;">
                 You've successfully completed the task, thank you!
-                Enter this password in the survey:
+                DO NOT CLOSE THIS TAB!
             </h2>
-            <h1 class="veri_code" id="verification_code">
+            <h1 hidden class="veri_code" id="verification_code">
                 HY63F8
             </h1>
         </div>
         <p style="text-align: center; margin-top: 30px; margin-left: 8px; margin-right: 8px">
-            Make sure you copy/remember the verification code and enter it in the survey!
+            Click this link below to return to the survey page!
+        </p>
+        <p style="margin-top: 30px;">
+            <ons-button modifier="large" onclick="goBackToSurvey()" style="margin-top: 20%; background-color: #00D8CF; border-radius: 20px;">Back To Survey</ons-button>
         </p>
     </ons-page>
 

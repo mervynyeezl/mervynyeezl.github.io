@@ -530,6 +530,10 @@ function onRedeemPressed(isVoucher) {
     }
 }
 
+function goBackToSurvey() {
+    window.open('https://nusbiz.az1.qualtrics.com/jfe/form/SV_bKM2AXw2AEXFRQ1?Tec=' + typeCategorisation + '&Den=' + outletCategorisation + '&Perm=' + permutation,'_self');
+}
+
 function updateLoggingTexts() {
     switch (permutation) {
         case '0':
