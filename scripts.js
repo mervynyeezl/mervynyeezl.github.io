@@ -6,6 +6,7 @@ var objectives = [];
 
 var permutation = 0;
 var permutationText = 'permutation';
+var hasSwitchedPermutation = false;
 
 var workerID;
 
@@ -80,6 +81,8 @@ $(document).ready(function () {
     typeCategorisation = parseInt(technique.charAt(0));
     outletCategorisation = parseInt(technique.charAt(1));
 
+    
+
     $.ajax({
         type: "GET",
         url: "data.txt",
@@ -92,17 +95,25 @@ $(document).ready(function () {
 
     permutation = getUrlParam('perm', 0)
     // permutate perm 0: 0-6-7-11 | perm 1: 7-11-0-6
-    if (permutation == 1) {
-        var tempAns = allAns;
-
+    
+    
+    
+    if ((permutation == 1) && !hasSwitchedPermutation) {
+        
+        var tempAns = [...allAns];
+        
         for (i = 0; i < 6; i++) {
             tempAns[i] = tempAns[i + 6];
             tempAns[i + 6] = allAns[i];
+            
         }
 
-        allAns = tempAns;
+        allAns = [...tempAns];
+        hasSwitchedPermutation = true;
     }
 
+    console.log(allAns);
+    
     objectives = allAns[ansNum];
     
     updateObjectives();
