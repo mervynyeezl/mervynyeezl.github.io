@@ -21,11 +21,11 @@ var allAns = [
     [{ name: 'Super Sports', quantity: 1, value: '$10', category: 'Retail' }, { name: 'Lionhill', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 4
     [{ name: 'Heart Cake', quantity: 1, value: '$5', category: 'Food' }, { name: 'Bolt', quantity: 1, value: '$10', category: 'Wellness' }, { name: 'Lionhill', quantity: 2, value: '$10', category: 'Retail' }], // ansNum = 5
     [{ name: 'Fast Train', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 6
-    [{ name: 'Tap For More', quantity: 10, value: '$1', category: 'Others' }], // ansNum = 7
-    [{ name: 'Action', quantity: 20, value: '$1', category: 'Wellness' }], // ansNum = 8
-    [{ name: 'Pizza Restaurant', quantity: 5, value: '$1', category: 'Food' }, { name: 'Tap For More', quantity: 5, value: '$1', category: 'Others' }], // ansNum = 9
-    [{ name: 'Fast Train', quantity: 10, value: '$1', category: 'Others' }, { name: 'Zalada', quantity: 20, value: '$1', category: 'Retail' }], // ansNum = 10
-    [{ name: 'Fast Train', quantity: 20, value: '$1', category: 'Others' }, { name: 'Tap For More', quantity: 1, value: '$1', category: 'Others' }], // ansNum = 11
+    [{ name: 'Tap For More', quantity: 20, value: '$1', category: 'Others' }], // ansNum = 7
+    [{ name: 'Action', quantity: 40, value: '$1', category: 'Wellness' }], // ansNum = 8
+    [{ name: 'Pizza Restaurant', quantity: 5, value: '$1', category: 'Food' }, { name: 'Tap For More', quantity: 10, value: '$1', category: 'Others' }], // ansNum = 9
+    [{ name: 'Fast Train', quantity: 10, value: '$1', category: 'Others' }, { name: 'Zalada', quantity: 30, value: '$1', category: 'Retail' }], // ansNum = 10
+    [{ name: 'Fast Train', quantity: 45, value: '$1', category: 'Others' }, { name: 'Tap For More', quantity: 1, value: '$1', category: 'Others' }], // ansNum = 11
     [{ name: 'Wave Mall', quantity: 1, value: '$5', category: 'Retail' }] // ansNum = 12 for test
 ]
 var ansCode = [9864, 9720, 9432, 8462, 4658, 3564, 2156, 1486, 1210, 1189, 9654, 5432, 1234];
@@ -390,7 +390,7 @@ function updateRow(index, rewards) {
             ons += "points";
         }
         ons += ".html`, {data: {title: `" + reward.name + "`, description: `" + reward.description + "`}})'>";
-        ons += "<img src='images/" + reward.imageUrl + "' class='image'>";
+        ons += "<img src='images/" + reward.imageUrl + "' class='image' />";
         ons += "<div class='description'>" + reward.description + "</div></div></ons-col>";
         return ons;
     }
@@ -401,7 +401,6 @@ function updateDenominationMultiple(denomination) {
     var healthpoints = multiple;
     var quantity = 1;
     document.getElementById('denomination').innerText = "$" + denomination;
-    document.getElementById('multiple').innerText = multiple;
     updateHealthpointsQuantity(healthpoints, quantity);
     document.getElementById('add_quantity').onclick = function () {
         healthpoints = healthpoints + multiple;
@@ -416,7 +415,6 @@ function updateDenominationMultiple(denomination) {
 }
 
 function updateHealthpointsQuantity(healthpoints, quantity) {
-    document.getElementById('healthpoints').innerText = healthpoints;
     document.getElementById('quantity').innerText = quantity;
 }
 
@@ -479,7 +477,6 @@ function onRedeemPressed(isVoucher) {
 
     if (isVoucher) {
         currentDenomination = document.getElementById('denomination').innerText;
-        console.log(currentDenomination);
     }
 
     var currentQuantity = document.getElementById('quantity').innerText;

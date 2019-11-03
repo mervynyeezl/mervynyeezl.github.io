@@ -16,21 +16,6 @@
 
 <ons-navigator swipeable id="myNavigator">
     <ons-page id="catalogue-page">
-        <ons-toolbar>
-            <div class="left">
-                <!--ons-toolbar-button>
-                    <ons-icon icon="fa-long-arrow-alt-left"></ons-icon>
-                </ons-toolbar-button-->
-            </div>
-            <div class="center">Healthy365</div>
-            <div class="right">
-                <ons-toolbar-button>
-                    <ons-icon icon="ion-ios-paperplane-outline"></ons-icon>
-                </ons-toolbar-button>
-            </div>
-        </ons-toolbar>
-
-
 
         <ons-tabbar swipeable position="bottom">
             <ons-tab page="start_page.html" label="DASHBOARD" icon="fa-stopwatch" active>
@@ -47,8 +32,9 @@
 
 <template id="start_page.html">
     <ons-page id="STARTPAGE">
-        <div class="center objectives_text" style="background-color: rgba(255, 255, 255, 0.85); margin-top: 20%"></div>
-
+        <div class="start_title">Healthy365</div>
+        <img src="images/beepline.png" />
+        <div class="center objectives_text" style="background-color: rgba(255, 255, 255, 0.85); margin-top: 10%"></div>
         <div style="text-align: center; margin-top: 20%;">
             <h1 style="text-align: center;">
                 Press Start to Begin Trial
@@ -109,19 +95,15 @@
             <div class="title" id="vouchertitle"></div>
             <br />
             <div class="content">
-                <div class="redeem_content" style="font-weight: bold"><span id="denomination"></span> eVoucher</div>
-                <div class="redeem_content"><span id="multiple"></span> healthpoints</div>
-                <br />
+                <span id="denomination" style="display:none"></span>
                 <div class="denomination_selector">Select voucher denomination:</div>
                 <div class="denomination_selector" id="denominations"></div>
                 <br />
                 <ons-row>
-                    <ons-col class="redeem_content">Healthpoints</ons-col>
                     <ons-col class="redeem_content">Quantity</ons-col>
                 </ons-row>
                 <br />
                 <ons-row>
-                    <ons-col class="redeem_content" id="healthpoints"></ons-col>
                     <ons-col class="redeem_content">
                         <ons-row>
                             <ons-col>
@@ -138,16 +120,13 @@
                 <br />
                 <ons-list>
                     <ons-list-header>Reward Information</ons-list-header>
-                    <ons-list-item>Please brighten your screen display before using the eVoucher</ons-list-item>
+                    <ons-list-item>This is sample text</ons-list-item>
                 </ons-list>
+                <br />
+                <ons-button class="redeem_button" modifier="large" onclick="onRedeemPressed(true)"  style="background-color: #00D8CF; border-radius: 20px;">Redeem
+                </ons-button>
             </div>
         </ons-card>
-
-        <ons-bottom-toolbar>
-            <ons-button class="redeem_button" modifier="large" onclick="onRedeemPressed(true)"  style="background-color: #00D8CF; border-radius: 20px;">Redeem
-            </ons-button>
-        </ons-bottom-toolbar>
-
 
     </ons-page>
 </template>
@@ -173,30 +152,17 @@
             <div class="title" id="vouchertitle"><span class="outlet"></span></div>
             <br />
             <div class="content">
-                <div class="redeem_content" style="font-weight: bold;">150 Healthpoint = 1 <span
-                        class="outlet"></span> Point</div>
-                <div class="redeem_content">subjected to Terms and Conditions</div>
-                <br />
                 <p>
-                    Slide to select no. of Healthpoints for redemption<br />
-                    <span id="healthpoints" style="color: #0476FB;"></span> Healthpoint(s) | <span id="quantity" style="color: #0476FB;"></span> <span
-                        class="outlet"></span> Point(s)<br />
+                    Slide to select no. of points to redeem:<br />
+                    <span id="quantity" style="color: #0476FB; font-size: medium; font-weight: bold;"></span> <span class="outlet"></span> Point(s)<br />
                     <ons-range id="points_slider" style="width: 100%" min="0" max="50" step="1" value="0">
                     </ons-range>
                 </p>
                 <br />
-                <p>
-                    Enter CARD ID (optional)<br />
-                    <ons-input id="card_id" class="redeem_content" name="card_id" modifier="underbar"></ons-input>
-                </p>
+                <ons-button class="redeem_button" modifier="large" onclick="onRedeemPressed(false)" style="background-color: #00D8CF; border-radius: 20px;">Redeem
+                </ons-button>
             </div>
         </ons-card>
-
-        <ons-bottom-toolbar>
-            <ons-button class="redeem_button" modifier="large" onclick="onRedeemPressed(false)" style="background-color: #00D8CF; border-radius: 20px;">Redeem
-            </ons-button>
-        </ons-bottom-toolbar>
-
 
     </ons-page>
 </template>

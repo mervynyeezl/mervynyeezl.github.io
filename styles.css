@@ -41,12 +41,19 @@ div.description {
     overflow: auto;
 }
 
+.start_title {
+    text-align: center;
+    font-size: x-large;
+    font-weight: bold;
+    color: white;
+    margin: 5%;
+}
 .objectives_text {
     margin: 10px auto;
     text-align: center;
-    width: 320px;
-    height: 70px;
-    line-height: 17px;
+    width: 290px;
+    height: 111px;
+    line-height: 16px;
     border-radius: 10px;
     font-size: small;
 }
