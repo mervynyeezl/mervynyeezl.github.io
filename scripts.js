@@ -8,6 +8,7 @@ var permutation = 0;
 var permutationText = 'permutation';
 var hasSwitchedPermutation = false;
 
+var numActions = 0;
 var workerID;
 
 var typeCategorisation, outletCategorisation; // categorisation flag: 0 - false, 1 - true
@@ -221,14 +222,16 @@ document.addEventListener('init', function (event) {
     updateObjectives();
 
     if (page.id == 'STARTPAGE') {
+        numActions = 0;
         document.getElementById('workerid').value = getUrlParam('workerid', '');
     } else if (page.id == 'REWARDS') {
         displayRewards(page);
-
     } else if (page.id == 'REDEEM_VOUCHER') {
+        numActions++;
         displayRedeemVouchers(page);
 
     } else if (page.id == 'REDEEM_POINTS') {
+        numActions++;
         displayRedeemPoints(page);
 
     } else if (page.id == 'CORRECT_END') {
@@ -240,12 +243,14 @@ document.addEventListener('postchange', function (event) {
     var page = event.target;
     var srcElement = event.srcElement;
     if (srcElement.id == 'segment') {
+        numActions++;
         var categoryNames = categoryGroup.getNames();
         var categoryIndex = document.getElementById('segment').getActiveButtonIndex();
         var rewards = getRewards([categoryNames[categoryIndex]]);
         updateRewards(rewards);
 
     } else if (srcElement.id == 'denomination_segment') {
+        numActions++;
         var denominationIndex = document.getElementById('denomination_segment').getActiveButtonIndex();
         var denomination = Object.keys(denominations)[denominationIndex];
         updateDenominationMultiple(denomination);
@@ -282,6 +287,7 @@ document.addEventListener('postpop', function (event) {
 function displayRewards(page) {
     var categoryNames = categoryGroup.getNames();
     var rewards;
+    
     if (typeCategorisation == 0) {
         document.getElementById("categories").style.display = "none";
         rewards = getRewards(categoryNames);
@@ -414,11 +420,13 @@ function updateDenominationMultiple(denomination) {
     document.getElementById('denomination').innerText = "$" + denomination;
     updateHealthpointsQuantity(healthpoints, quantity);
     document.getElementById('add_quantity').onclick = function () {
+        numActions++;
         healthpoints = healthpoints + multiple;
         quantity = quantity + 1;
         updateHealthpointsQuantity(healthpoints, quantity);
     };
     document.getElementById('remove_quantity').onclick = function () {
+        numActions++;
         healthpoints = Math.max(healthpoints - multiple, multiple);
         quantity = Math.max(quantity - 1, 1)
         updateHealthpointsQuantity(healthpoints, quantity);
@@ -481,9 +489,9 @@ function startPressed() {
 
 // Check if the user pressed redeem on the correct voucher page
 function onRedeemPressed(isVoucher) {
+    numActions++;
 
     var currentDenomination = '$1';
-
     var currentVoucherID = document.getElementById('vouchertitle').innerText;
 
     if (isVoucher) {
@@ -573,10 +581,10 @@ function sendUserStartPressed() {
 function sendUserErrorAction(description) {
     updateLoggingTexts();
 
-    loggingjs.logEvent(null, 'usererror', {
+    /*loggingjs.logEvent(null, 'usererror', {
         eventName: 'userErrorAction',
         info: { 'description': description, 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText }
-    });
+    });*/
 }
 
 function sendTrialCompleteAction() {
@@ -584,7 +592,7 @@ function sendTrialCompleteAction() {
 
     loggingjs.logEvent(null, 'usercomplete', {
         eventName: 'userTrialSuccess',
-        info: { 'description': 'User successfully completed trial', 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText }
+        info: { 'description': 'User successfully completed trial', 'workerID': workerID, 'trial': ansNum, 'permutation': permutationText, 'technique': techniqueText, 'numActions': numActions }
     });
 }
 

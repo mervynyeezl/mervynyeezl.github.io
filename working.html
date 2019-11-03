@@ -197,6 +197,8 @@
         <div style="text-align: center; margin-top: 20%; margin-left: 8px; margin-right: 8px">
             <h2 style="text-align: center;">
                 You've successfully completed the task, thank you!
+            </h2>
+            <h2 style="text-align: center;">
                 DO NOT CLOSE THIS TAB!
             </h2>
             <h1 hidden class="veri_code" id="verification_code">
