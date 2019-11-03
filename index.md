@@ -33,10 +33,10 @@
 <template id="start_page.html">
     <ons-page id="STARTPAGE">
         <div class="start_title">Healthy365</div>
-        <img src="images/beepline.png" />
+        <img src="images/beepline.png" style="width: 100%;"/>
         <div class="center objectives_text" style="background-color: rgba(255, 255, 255, 0.85); margin-top: 10%"></div>
         <div style="text-align: center; margin-top: 20%;">
-            <h1 style="text-align: center;">
+            <h1 style="text-align: center; color: white;">
                 Press Start to Begin Trial
             </h1>
             <p hidden>
