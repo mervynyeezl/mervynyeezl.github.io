@@ -109,13 +109,13 @@
                         <ons-col class="redeem_content">
                             <ons-row>
                                 <ons-col>
-                                    <ons-icon icon="ion-ios-remove-circle-outline" size="25px" id="remove_quantity"
+                                    <ons-icon icon="ion-ios-remove-circle-outline" size="30px" id="remove_quantity"
                                         style="color: #00D8CF">
                                     </ons-icon>
                                 </ons-col>
                                 <ons-col id="quantity"></ons-col>
                                 <ons-col>
-                                    <ons-icon icon="ion-ios-add-circle-outline" size="25px" id="add_quantity"
+                                    <ons-icon icon="ion-ios-add-circle-outline" size="30px" id="add_quantity"
                                         style="color: #00D8CF"></ons-icon>
                                 </ons-col>
                             </ons-row>
