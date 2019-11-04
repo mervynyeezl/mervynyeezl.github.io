@@ -1,9 +1,15 @@
 /* Use a media query to add a breakpoint at 800px: */
 @media screen and (min-width: 800px) {
-    body {
+   /* body {
         width: 450px; 
         height: 800px;
-    }
+    }*/
+}
+
+body {
+    width: 450px;
+    height: 800px;
+    border: 1px solid black;
 }
 
 .voucher_thumbnail {
