@@ -344,6 +344,8 @@ function displayRedeemPoints(page) {
     var quantity = 0;
     updateHealthpointsQuantity(healthpoints, quantity);
     page.querySelector('#points_slider').oninput = function () {
+        console.log("slider input fired");
+        numActions++;
         quantity = document.getElementById('points_slider').value;
         healthpoints = quantity * multiple;
         updateHealthpointsQuantity(healthpoints, quantity);
