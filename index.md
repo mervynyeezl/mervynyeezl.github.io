@@ -44,7 +44,7 @@
                     <ons-input id="workerid" modifier="underbar" placeholder="Enter WorkerID" float></ons-input>
                 </p>
             </div>
-            <p style="margin-top: 30px;">
+            <p style="margin-top: 30px; margin-left: 16px; margin-right: 16px;">
                 <ons-button modifier="large" onclick="startPressed()"
                     style="margin-top: 20%; background-color: #00D8CF; border-radius: 20px;">Start</ons-button>
             </p>
@@ -215,7 +215,7 @@
             <p style="text-align: center; margin-top: 30px; margin-left: 8px; margin-right: 8px">
                 Click this link below to return to the survey page!
             </p>
-            <p style="margin-top: 30px;">
+            <p style="margin-top: 30px; margin-left: 16px; margin-right: 16px;">
                 <ons-button modifier="large" onclick="goBackToSurvey()"
                     style="margin-top: 20%; background-color: #00D8CF; border-radius: 20px;">Back To Survey</ons-button>
             </p>
