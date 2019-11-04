@@ -213,7 +213,10 @@
                 </h1>
             </div>
             <p style="text-align: center; margin-top: 30px; margin-left: 8px; margin-right: 8px">
-                Click this link below to return to the survey page!
+                1. Click the button below to return to the survey page and
+            </p>
+            <p style="text-align: center; margin-top: 30px; margin-left: 8px; margin-right: 8px">
+                2. Click on the "I have completed the trial" button to proceed to the next section.
             </p>
             <p style="margin-top: 30px; margin-left: 16px; margin-right: 16px;">
                 <ons-button modifier="large" onclick="goBackToSurvey()"
